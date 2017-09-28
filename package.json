@@ -1,0 +1,16 @@
+{
+  "name": "hw4",
+  "version": "1.0.0",
+  "description": "SWE432 Assignment 4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vincent Liu & Fatih Andican",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.15.5",
+    "node-fetch": "^1.7.3"
+  }
+}
