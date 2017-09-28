@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "SWE432 Assignment 4",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "scripts": { 
+  "start": "node index.js",
+    "test": "node test.js"
   },
   "author": "Vincent Liu & Fatih Andican",
   "license": "ISC",
