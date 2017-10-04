@@ -14,7 +14,9 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 var queriesPerSec = 0;
+const MAXQUERYPERSEC = 10;
 var queriesPerDay = 0;
+const MAXQUERYPERDAY = 25000;
 class WOTRequester{
     constructor(key){
         this.key = key;
@@ -58,12 +60,12 @@ app.get("/score/:website",function(req,res){
     console.log(websiteID);
     database.ref("website/"+websiteID).once("value").then(function(snapshot){
         console.log("hwer")
-        if(snapshot.exists()){
+        if(snapshot.exists() && (queriesPerDay < MAXQUERYPERDAY)){
             res.send(snapshot.val());
         }
         else{
-            if(queriesPerDay < 25000) {
-                if (queriesPerSec < 10) {
+            if(queriesPerDay < MAXQUERYPERDAY) {
+                if (queriesPerSec < MAXQUERYPERSEC) {
                     queriesPerSec++;
                     queriesPerDay++;
                     requester.sendRequest(req.params.website).then((json)=>{
