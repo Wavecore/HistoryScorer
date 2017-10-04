@@ -1,6 +1,6 @@
 var fetch = require('node-fetch');
 
-fetch("http://localhost:5000/PUT/3650",
+fetch(" https://infinite-peak-34901.herokuapp.com/PUT/3650",
     {
         headers: {
             'Accept': 'application/json',
