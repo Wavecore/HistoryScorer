@@ -3,6 +3,7 @@ var app = express();
 var fetch = require('node-fetch');
 var bodyParser = require('body-parser');
 const firebase = require("firebase");
+
 var config = {
     apiKey: "AIzaSyAAN8iqfAOt19rUcDnODW5zByhyftiCVLM",
     authDomain: "swe432-wothistoryanalyzer.firebaseapp.com",
@@ -15,6 +16,10 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var queriesPerSec = 0;
 var queriesPerDay = 0;
+var history;
+
+
+
 class WOTRequester{
     constructor(key){
         this.key = key;
@@ -30,6 +35,7 @@ class WOTRequester{
             });
     }
 }
+
 class HistoryParser{
     constructor(history,requestor){
         this.history = history;
