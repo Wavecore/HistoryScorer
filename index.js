@@ -109,7 +109,8 @@ app.get("/score/:website",function(req,res){
 });
 app.get("/scores",function(req,res){
     let sites = req.body;
-    let websites;
+    console.log(sites);
+    let websites = "";
     for(var i in sites)
         websites += sites[i]+'/'
     console.log(websites);
