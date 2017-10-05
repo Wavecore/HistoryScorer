@@ -91,9 +91,9 @@ app.listen(app.get('port'), function(){
 });
 //=====================Debugging=================================
 app.get("/GET",function(req,res){
-    history.push("string 1");
-    history.push("string 2");
-    res.send(history);
+    //history.push("string 1");
+    //history.push("string 2");
+    res.send("test history");
 });
 //===============================================================
 //================Scenario 1================
