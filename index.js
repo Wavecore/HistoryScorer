@@ -18,7 +18,11 @@ var queriesPerSec = 0;
 const MAXQUERYPERSEC = 10;
 var queriesPerDay = 0;
 const MAXQUERYPERDAY = 25000;
-var history;
+var history = new Array();
+
+var myArray = new Array();
+
+
 
 class WOTRequester{
     constructor(key){
@@ -36,12 +40,21 @@ class WOTRequester{
     }
 }
 
-class HistoryParser{
-    constructor(history,requestor){
-        this.history = history;
-        this.requestor = requestor;
+class History{
+    constructor(){
+        this.history = new Array();
+    }
+
+    json2array(json){
+        let history = [];
+        let keys = Object.keys(json);
+        keys.forEach(function(key){
+            history.push(json[key]);
+        });
+        this.history =history;
     }
 }
+
 var requester = new WOTRequester("6a61298751dcc88830b430677620aadde46cd213");
 setInterval(()=>{
     queriesPerSec = 0;
@@ -57,8 +70,24 @@ app.listen(app.get('port'), function(){
 });
 
 app.get("/GET",function(req,res){
-    res.send(temp);
+    history.push("string 1");
+    history.push("string 2");
+
+    res.send(history);
 });
+
+var historyReq = new History();
+
+
+app.post('/newsite/index/:index',function(req,res){
+
+    historyReq.json2array(req.body);
+
+
+    console.log(history);
+
+});
+
 app.get("/score/:website",function(req,res){
     let websiteID = req.params.website.replace(".","_");
     console.log(websiteID);
