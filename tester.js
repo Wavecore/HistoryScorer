@@ -1,11 +1,12 @@
 var fetch = require('node-fetch');
 
-fetch(" https://infinite-peak-34901.herokuapp.com/PUT/3650",
+fetch(" https://infinite-peak-34901.herokuapp.com/scores",
     {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
+
         method: "PUT",
         body: JSON.stringify({
             id:88085,
@@ -21,4 +22,5 @@ fetch(" https://infinite-peak-34901.herokuapp.com/PUT/3650",
         })
 
         })
+  
     .then(function(res){ console.log(res.status) });
