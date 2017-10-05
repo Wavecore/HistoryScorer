@@ -18,6 +18,7 @@ var queriesPerSec = 0;
 const MAXQUERYPERSEC = 10;
 var queriesPerDay = 0;
 const MAXQUERYPERDAY = 25000;
+const THIRTYMININMILISEC = 1800000;
 var history;
 
 class WOTRequester{
@@ -61,10 +62,12 @@ app.get("/GET",function(req,res){
 });
 app.get("/score/:website",function(req,res){
     let websiteID = req.params.website.replace(".","_");
-    console.log(websiteID);
+    //console.log(websiteID);
     database.ref("website/"+websiteID).once("value").then(function(snapshot){
-        console.log("hwer")
-        if(snapshot.exists() && (queriesPerDay < MAXQUERYPERDAY)){
+        if(snapshot.exists() && (queriesPerDay > MAXQUERYPERDAY || Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC)){
+            let update = snapshot.val();
+            update.visits++;
+            database.ref("website/"+websiteID).update(update);
             res.send(snapshot.val());
         }
         else{
@@ -73,7 +76,6 @@ app.get("/score/:website",function(req,res){
                     queriesPerSec++;
                     queriesPerDay++;
                     requester.sendRequest(req.params.website).then((json)=>{
-                        console.log(json[req.params.website])
                         let score = json[req.params.website];
                         score.trustworthiness = score['0'];
                         score.childSafety = score['4'];
@@ -83,7 +85,8 @@ app.get("/score/:website",function(req,res){
                             delete score['2'];
                         if(score['1'] != null)
                             delete score['1'];
-
+                        score.lastModified = Date.now().toString();
+                        score.visits = 1;
                         database.ref("website/"+websiteID).set(score);
                         res.send(score);
                     });
@@ -95,10 +98,18 @@ app.get("/score/:website",function(req,res){
     });
 
 });
+app.get("/scores",function(req,res){
+    let sites = req.body;
+    let string;
+    for(var i of sites)
+        console.log(i);
+});
 app.put("/PUT/:value",function(req,res){
     temp = req.params.value;
     res.sendStatus(200);
 });
+var nStartTime = Date.now();
+var nEndTime = Date.now();
 /*fetch('http://api.mywot.com/0.4/public_link_json2?hosts=piazza.com/&key=6a61298751dcc88830b430677620aadde46cd213')
 .then(function(res){
    return res.json();
