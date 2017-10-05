@@ -26,9 +26,18 @@ class WOTRequester{
         this.key = key;
         this.requestTemplate1 = 'http://api.mywot.com/0.4/public_link_json2?hosts=';
         this.requestTemplate2 = '/&key=';
+        this.requestTemplate3 = '&keys=';
     }
     sendRequest(website){
         return fetch(this.requestTemplate1+website+this.requestTemplate2+this.key)
+            .then(function(res){
+                return res.json();
+            }).then(function(json){
+                return json;
+            });
+    }
+    sendRequests(websites){
+        return fetch(this.requestTemplate1+website+this.requestTemplate3+this.key)
             .then(function(res){
                 return res.json();
             }).then(function(json){
@@ -100,9 +109,13 @@ app.get("/score/:website",function(req,res){
 });
 app.get("/scores",function(req,res){
     let sites = req.body;
-    let string;
-    for(var i of sites)
-        console.log(i);
+    let websites;
+    for(var i in sites)
+        websites += sites[i]+'/'
+    requester.sendRequests(websites).then((json)=>{
+        console.log(json);
+    });
+    //console.log(websites);
 });
 app.put("/PUT/:value",function(req,res){
     temp = req.params.value;
