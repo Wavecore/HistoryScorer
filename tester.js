@@ -1,24 +1,25 @@
 var fetch = require('node-fetch');
 
-fetch(" https://infinite-peak-34901.herokuapp.com/scores",
+fetch(" http://localhost:5000/newsite/google_com/3",
     {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
 
-        method: "PUT",
-        body: JSON.stringify({
-            id:88085,
+        method: "POST",
+        body: JSON.stringify({0:{
+            id:11111,
             visitCount:2,
             lastVisitTime:'2017-09-28T15:58:49.045Z',
             title:'Chrome Web Store - Extensions',
-            url:'https://chrome.google.com/webstore/category/extensions?hl=en',
-            id:18321,
+            url:'https://chrome.google.com/webstore/category/extensions?hl=en'},
+            1:{
+            id:22222,
             visitCount:183,
             lastVisitTime:'2017-09-28T15:57:04.884Z',
             title:'Safe Search',
-            url:'https://search.norton.com/'
+            url:'https://search.norton.com/'}
         })
 
         })

@@ -18,13 +18,7 @@ var queriesPerSec = 0;
 const MAXQUERYPERSEC = 10;
 var queriesPerDay = 0;
 const MAXQUERYPERDAY = 25000;
-
-var history = new Array();
-
-var myArray = new Array();
-
 const THIRTYMININMILISEC = 1800000;
-var history;
 
 class WOTRequester{
     constructor(key){
@@ -56,49 +50,53 @@ class History{
         this.history = new Array();
     }
 
-    json2array(json){
-        let history = [];
+    json2array(json,index ){
+        let tmpIndex = index;
+        let history = this.history;
         let keys = Object.keys(json);
-        keys.forEach(function(key){
-            history.push(json[key]);
+        keys.forEach(function (key) {
+            history.splice(tmpIndex, 0, json[key]);
+            tmpIndex++;
         });
-        this.history =history;
+        this.history = history;
+    }
+    deleteByName(websiteName){
+        let index = -1;
+        for(let i  in this.history)
+            if(this.history[i].url == websiteName)
+                index = i;
+        if(index >= 0)
+            this.deleteByIndex(index);
+    }
+    deleteByIndex(index){
+        if(index < this.history.length)
+            this.history.splice(index,1);
+    }
+    clear(){
+        this.history = [];
     }
 }
-
 var requester = new WOTRequester("6a61298751dcc88830b430677620aadde46cd213");
+var historyReq = new History();
 setInterval(()=>{
     queriesPerSec = 0;
     },1000);
 setInterval(()=>{
     queriesPerDay = 0;
     },86400000);
-var temp = "Default";
 app.set('port',(process.env.PORT || 5000));
 app.use(bodyParser.json());
 app.listen(app.get('port'), function(){
     console.log('Node app is running on port', app.get('port'));
 });
-
+//=====================Debugging=================================
 app.get("/GET",function(req,res){
     history.push("string 1");
     history.push("string 2");
-
     res.send(history);
 });
-
-var historyReq = new History();
-
-
-app.post('/newsite/index/:index',function(req,res){
-
-    historyReq.json2array(req.body);
-
-
-    console.log(history);
-
-});
-
+//===============================================================
+//================Scenario 1================
 app.get("/score/:website",function(req,res){
     let websiteID = req.params.website.replace(".","_");
     //console.log(websiteID);
@@ -137,6 +135,61 @@ app.get("/score/:website",function(req,res){
     });
 
 });
+//=============Scenario 3======================
+app.post('/newsite/:website/:index?',function (req,res) {
+    let index = req.params.index;
+    if(index == undefined) {
+        index = 0;
+    }
+    if(index > historyReq.history.length)
+        index = historyReq.history.length;
+    let website = {};
+    website.visitCount = 1;
+    website.url = req.params.website;
+    historyReq.json2array({0:website},index);
+    console.log(historyReq.history);
+    console.log("==================================================");
+    res.sendStatus(200);
+});
+//=============Scenario 4======================
+app.post('/newsites/:index?',function(req,res){
+    let index = req.params.index;
+    if(index == undefined) {
+        index = 0;
+    }
+    if(index > historyReq.history.length)
+        index = historyReq.history.length;
+    historyReq.json2array(req.body,index);
+    console.log(historyReq.history);
+    console.log("==================================================");
+    res.sendStatus(200);
+});
+//================Scenario 5===========================
+app.delete("/deleteWeb/:website", function(req,res){
+    let website = req.params.website;
+    historyReq.deleteByName(website);
+    console.log(historyReq.history);
+    res.sendStatus(200);
+});
+//================Scenario 6===========================
+app.delete("/deleteIndex/:index", function(req,res){
+    let index = req.params.index;
+    historyReq.deleteByIndex(index);
+    console.log(historyReq.history);
+    res.sendStatus(200);
+});
+//===============Scenario 7================
+app.delete("/clear",function(req,res){
+    historyReq.clear();
+    console.log(historyReq.history);
+    res.sendStatus(200);
+});
+//===============Scenario 10===============
+app.get("/history",function(req,res){
+    res.send(historyReq.history);
+});
+
+
 /*
 app.put("/scores",function(req,res){
     let sites = req.body;
@@ -152,18 +205,5 @@ app.put("/scores",function(req,res){
         res.sendStatus(200);
     });
     //console.log(websites);
-});
-app.put("/PUT/:value",function(req,res){
-    temp = req.params.value;
-    res.sendStatus(200);
-});
-var nStartTime = Date.now();
-var nEndTime = Date.now();
-*/
-/*fetch('http://api.mywot.com/0.4/public_link_json2?hosts=piazza.com/&key=6a61298751dcc88830b430677620aadde46cd213')
-.then(function(res){
-   return res.json();
-}).then(function(json){
-    console.log(json);
 });
 */
