@@ -37,7 +37,7 @@ class WOTRequester{
             });
     }
     sendRequests(websites){
-        return fetch(this.requestTemplate1+website+this.requestTemplate3+this.key)
+        return fetch(this.requestTemplate1+websites+this.requestTemplate3+this.key)
             .then(function(res){
                 return res.json();
             }).then(function(json){
