@@ -27,15 +27,44 @@ class WOTRequester{
         this.requestTemplate2 = '/&key=';
         this.requestTemplate3 = '&keys=';
     }
+    formatResponse(res,website){
+        let score = res[website];
+        let trust = {}
+        trust.reputation = score['0']['0'];
+        trust.confidence = score['0']['1'];
+        score.trustworthiness = trust;
+        delete  score['0'];
+        let safety = {};
+        safety.reputation = score['4']['0'];
+        safety.confidence = score['4']['1'];
+        score.childSafety = safety;
+        delete  score['4'];
+        score.url = score.target;
+        delete score.target;
+        if(score['2'] != null)
+            delete score['2'];
+        if(score['1'] != null)
+            delete score['1'];
+        score.lastModified = Date.now().toString();
+        score.visits = 1;
+        return score;
+    }
     sendRequest(website){
+        let requester = this;
         return fetch(this.requestTemplate1+website+this.requestTemplate2+this.key)
             .then(function(res){
                 return res.json();
             }).then(function(json){
-                return json;
+                return requester.formatResponse(json,website);
             });
     }
-    sendRequests(websites){
+    sendHundredRequests(history,index){
+        
+    }
+    sendRequests(history){
+        return new Promise((history,index)=>{
+
+        });
         return fetch(this.requestTemplate1+websites+this.requestTemplate3+this.key)
             .then(function(res){
                 return res.json();
@@ -55,6 +84,8 @@ class History{
         let history = this.history;
         let keys = Object.keys(json);
         keys.forEach(function (key) {
+            let historyEntry = json[key];
+
             history.splice(tmpIndex, 0, json[key]);
             tmpIndex++;
         });
@@ -98,32 +129,23 @@ app.get("/GET",function(req,res){
 //===============================================================
 //================Scenario 1================
 app.get("/score/:website",function(req,res){
-    let websiteID = req.params.website.replace(".","_");
+    let website = req.params.website.toString().replace(new RegExp("www[.]"),'');
+    let websiteID = website.replace(new RegExp("[.]",'g'),"_");
     //console.log(websiteID);
     database.ref("website/"+websiteID).once("value").then(function(snapshot){
         if(snapshot.exists() && (queriesPerDay > MAXQUERYPERDAY || Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC)){
             let update = snapshot.val();
             update.visits++;
+            update.lastModified  = Date.now();
             database.ref("website/"+websiteID).update(update);
-            res.send(snapshot.val());
+            res.send(update);
         }
         else{
             if(queriesPerDay < MAXQUERYPERDAY) {
                 if (queriesPerSec < MAXQUERYPERSEC) {
                     queriesPerSec++;
                     queriesPerDay++;
-                    requester.sendRequest(req.params.website).then((json)=>{
-                        let score = json[req.params.website];
-                        score.trustworthiness = score['0'];
-                        score.childSafety = score['4'];
-                        delete  score['0'];
-                        delete  score['4'];
-                        if(score['2'] != null)
-                            delete score['2'];
-                        if(score['1'] != null)
-                            delete score['1'];
-                        score.lastModified = Date.now().toString();
-                        score.visits = 1;
+                    requester.sendRequest(req.params.website).then((score)=>{
                         database.ref("website/"+websiteID).set(score);
                         res.send(score);
                     });
