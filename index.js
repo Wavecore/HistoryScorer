@@ -107,8 +107,10 @@ app.get("/score/:website",function(req,res){
     });
 
 });
-app.get("/scores",function(req,res){
+/*
+app.put("/scores",function(req,res){
     let sites = req.body;
+    console.log(req);
     console.log(sites);
     let websites = "";
     for(var i in sites)
@@ -127,6 +129,7 @@ app.put("/PUT/:value",function(req,res){
 });
 var nStartTime = Date.now();
 var nEndTime = Date.now();
+*/
 /*fetch('http://api.mywot.com/0.4/public_link_json2?hosts=piazza.com/&key=6a61298751dcc88830b430677620aadde46cd213')
 .then(function(res){
    return res.json();
