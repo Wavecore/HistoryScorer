@@ -112,8 +112,11 @@ app.get("/scores",function(req,res){
     let websites;
     for(var i in sites)
         websites += sites[i]+'/'
+    console.log(websites);
     requester.sendRequests(websites).then((json)=>{
         console.log(json);
+
+        res.sendStatus(200);
     });
     //console.log(websites);
 });
