@@ -1,6 +1,6 @@
 var fetch = require('node-fetch');
 
-fetch(" http://localhost:5000/newsite/google_com/3",
+fetch(" http://localhost:5000/newsites/2",
     {
         headers: {
             'Accept': 'application/json',
@@ -13,15 +13,33 @@ fetch(" http://localhost:5000/newsite/google_com/3",
             visitCount:2,
             lastVisitTime:'2017-09-28T15:58:49.045Z',
             title:'Chrome Web Store - Extensions',
-            url:'https://chrome.google.com/webstore/category/extensions?hl=en'},
+            url:'chrome.google.com'},
             1:{
-            id:22222,
-            visitCount:183,
-            lastVisitTime:'2017-09-28T15:57:04.884Z',
-            title:'Safe Search',
-            url:'https://search.norton.com/'}
+                id:22222,
+                visitCount:183,
+                lastVisitTime:'2017-09-28T15:55:04.884Z',
+                title:'Safe Search',
+                url:'search.norton.com'},
+            2:{
+                id:222555,
+                visitCount:12,
+                lastVisitTime:'2017-09-28T15:57:04.884Z',
+                title:'Safe Search',
+                url:'search.norton.com'},
+            3:{
+                id:33333,
+                visitCount:13,
+                lastVisitTime:'2017-09-28T15:51:33.483Z',
+                title:'SWE 432',
+                url:'piazza.com'},
+            4:{
+                id:44444,
+                visitCount:17,
+                lastVisitTime:'2017-09-28T15:52:33.483Z',
+                title:'SWE 432',
+                url:'piazza.com'}
         })
 
         })
   
-    .then(function(res){ console.log(res.status) });
+    .then(function(res){ console.log("result: " + res.status) });
