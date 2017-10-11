@@ -27,6 +27,13 @@ class WOTRequester{
         this.requestTemplate2 = '/&key=';
         this.requestTemplate3 = '&keys=';
     }
+    //TODO format the website so that https://en.google.com/aa/ddd/ will turn as en.google.com
+    formatWebsite(website){
+        return website.replace(new RegExp("www[.]"),'');
+    }
+    formatWebsiteID(website){
+        return this.formatWebsite(website).replace(new RegExp("[.]",'g'),"_");
+    }
     formatResponse(res,website){
         let score = res[website];
         let trust = {}
@@ -58,9 +65,19 @@ class WOTRequester{
                 return requester.formatResponse(json,website);
             });
     }
+    formatHundredQueries(historyKeys,index){
+        let keysToFormat = new Array();
+        while(keysToFormat.length < 100 && index < historyKeys.length){
+
+        }
+    }
+  /*  addToRequest(reqKeys,res,historyKeys,index){
+        if()
+    }
     sendHundredRequests(history,index){
         
     }
+
     sendRequests(history){
         return new Promise((history,index)=>{
 
@@ -72,6 +89,7 @@ class WOTRequester{
                 return json;
             });
     }
+    */
 }
 
 class History{
@@ -93,6 +111,7 @@ class History{
 
             for(let i  in history){
                 //console.log('Exists:' + history[i].url.indexOf(historyEntry.url));
+                // TODO format the url to so that only the nessecary components remain (currently the url isn't formated sot google.com/aa and google.com/bb will be treated as different entries
                 if(history[i].url.indexOf(historyEntry.url)==0){
                     var d1 = new Date(historyEntry.lastVisitTime);
                     //console.log('d1:' + d1);
@@ -101,6 +120,7 @@ class History{
                     if(d1 >  d2){
                         //console.log('Exists22:' + history[i].url.indexOf(historyEntry.url));
                         history[i].lastVisitTime=historyEntry.lastVisitTime;
+                        // TODO Even if the this is not the lastVisited, it doesn't change the fact we visited the site a number of times so regardless of the last time visited we need to add the visitCount
                         history[i].visitCount+=historyEntry.visitCount;
                         doExist=true;
                     }
@@ -152,8 +172,8 @@ app.get("/GET",function(req,res){
 //===============================================================
 //================Scenario 1================
 app.get("/score/:website",function(req,res){
-    let website = req.params.website.toString().replace(new RegExp("www[.]"),'');
-    let websiteID = website.replace(new RegExp("[.]",'g'),"_");
+    //let website = requester.formatWebsite();
+    let websiteID = requester.formatWebsiteID(req.params.website.toString());
     //console.log(websiteID);
     database.ref("website/"+websiteID).once("value").then(function(snapshot){
         if(snapshot.exists() && (queriesPerDay > MAXQUERYPERDAY || Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC)){
