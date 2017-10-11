@@ -79,15 +79,38 @@ class History{
         this.history = new Array();
     }
 
+    // TODO we need to avoid duplicates so use dictionary or some list
     json2array(json,index ){
         let tmpIndex = index;
         let history = this.history;
         let keys = Object.keys(json);
+        let historyEntry;
+        let doExist=false;
         keys.forEach(function (key) {
-            let historyEntry = json[key];
+            historyEntry = json[key];
+            doExist=false;
+            //console.log('historyEntry:' + historyEntry.url + "--" + historyEntry.lastVisitTime);
 
-            history.splice(tmpIndex, 0, json[key]);
-            tmpIndex++;
+            for(let i  in history){
+                //console.log('Exists:' + history[i].url.indexOf(historyEntry.url));
+                if(history[i].url.indexOf(historyEntry.url)==0){
+                    var d1 = new Date(historyEntry.lastVisitTime);
+                    //console.log('d1:' + d1);
+
+                    var d2 = new Date(history[i].lastVisitTime);
+                    if(d1 >  d2){
+                        //console.log('Exists22:' + history[i].url.indexOf(historyEntry.url));
+                        history[i].lastVisitTime=historyEntry.lastVisitTime;
+                        history[i].visitCount+=historyEntry.visitCount;
+                        doExist=true;
+                    }
+                }
+            }
+
+            if(!doExist) {
+                history.splice(tmpIndex, 0, json[key]);
+                tmpIndex++;
+            }
         });
         this.history = history;
     }
