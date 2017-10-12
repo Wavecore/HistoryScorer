@@ -118,7 +118,7 @@ class WOTRequester{
 
 class History{
     constructor(){
-        this.history = new Array();
+        this.history = {}; //new Array();
     }
 
     getDomain(url) {
@@ -150,8 +150,23 @@ class History{
             }
     }
 
+    isValidURL(str) {
+        var pattern = new RegExp('^((https?:)?\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locater
+        if (!pattern.test(str)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
     // TODO we need to avoid duplicates so use dictionary or some list
-    json2array(json,index ){
+    json2Dictonary(json,index ){
         let historyClass = this;
         let tmpIndex = index;
 
@@ -163,12 +178,19 @@ class History{
         keys.forEach(function (key) {
             historyEntry = json[key];
             doExist=false;
-            // format the url
-            var match = historyClass.getHostName(historyEntry.url.toString());
-            if(match != null){
-                console.log('historyEntry:' + historyEntry.url + "--" + match);
-                historyEntry.url=match;
+
+            if(historyClass.isValidURL(historyEntry.url)){
+                // format the url
+                var match = historyClass.getHostName(historyEntry.url.toString());
+                if(match != null){
+                    //console.log('historyEntry:' + historyEntry.url + "--" + match);
+                    historyEntry.url=match;
+                }
+            }else{
+                return;
             }
+
+            //console.log('URL Valid:' + historyClass.isValidURL(historyEntry.url));
 
             for(let i  in history){
                 //console.log('Exists:' + history[i].url.indexOf(historyEntry.url));
@@ -189,11 +211,13 @@ class History{
             }
 
             if(!doExist) {
-                history.splice(tmpIndex, 0, json[key]);
-                tmpIndex++;
+                history[ historyEntry.id ] = historyEntry;
             }
         });
         this.history = history;
+
+        //console.log("visitCount:" + history[33333].visitCount);
+        //console.log("url:" + history[33333].url);
     }
     deleteByName(websiteName){
         let index = -1;
@@ -271,7 +295,7 @@ app.post('/newsite/:website/:index?',function (req,res) {
     let website = {};
     website.visitCount = 1;
     website.url = req.params.website;
-    historyReq.json2array({0:website},index);
+    historyReq.json2Dictonary({0:website},index);
     console.log(historyReq.history);
     console.log("==================================================");
     res.sendStatus(200);
@@ -284,7 +308,7 @@ app.post('/newsites/:index?',function(req,res){
     }
     if(index > historyReq.history.length)
         index = historyReq.history.length;
-    historyReq.json2array(req.body,index);
+    historyReq.json2Dictonary(req.body,index);
     console.log(historyReq.history);
     console.log("==================================================");
     res.sendStatus(200);
