@@ -29,7 +29,8 @@ class WOTRequester{
     }
     //TODO format the website so that https://en.google.com/aa/ddd/ will turn as en.google.com
     formatWebsite(website){
-        return website.replace(new RegExp("www[.]"),'');
+       // console.log("sadfdf"+website.replace(new RegExp("(.*//)?(www[.])?"),''));
+        return website.replace(new RegExp("(.*//)?(www[.])?"),'').replace(new RegExp("(/.*)"),"");
     }
     formatWebsiteID(website){
         return this.formatWebsite(website).replace(new RegExp("[.]",'g'),"_");
@@ -71,9 +72,32 @@ class WOTRequester{
 
         }
     }
-  /*  addToRequest(reqKeys,res,historyKeys,index){
-        if()
+    addToRequest(reqKeys,res,historyKeys,index){//reqKeys = input keys,res = , historyKeys = output keys, index = index of websites added so far
+        let requester = this;
+        if(historyKeys.length < 100 && index < reqKeys.length){
+           // console.log(index);
+            let website = requester.formatWebsite(reqKeys[index]);
+            let websiteID = requester.formatWebsiteID(reqKeys[index]);
+           // console.log(reqKeys[index]);
+            index++;
+            return database.ref("website/"+websiteID).once("value").then(function(snapshot){
+                if(snapshot.exists() && Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC) {
+                    res.push(snapshot.val());
+                    return requester.addToRequest(reqKeys,res,historyKeys,index);
+                }
+                else{
+                    historyKeys.push(website);
+                    return requester.addToRequest(reqKeys,res,historyKeys,index);
+                }
+            });
+        }
+        else{
+            console.log("Done");
+            //console.log({res,historyKeys,index});
+            return {res,historyKeys,index};
+        }
     }
+    /*
     sendHundredRequests(history,index){
         
     }
@@ -172,7 +196,6 @@ app.get("/GET",function(req,res){
 //===============================================================
 //================Scenario 1================
 app.get("/score/:website",function(req,res){
-    //let website = requester.formatWebsite();
     let websiteID = requester.formatWebsiteID(req.params.website.toString());
     //console.log(websiteID);
     database.ref("website/"+websiteID).once("value").then(function(snapshot){
