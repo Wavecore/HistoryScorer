@@ -166,7 +166,7 @@ class History{
 
 
     // TODO we need to avoid duplicates so use dictionary or some list
-    json2Dictonary(json,index ){
+    json2Dictionary(json,index ){
         let historyClass = this;
         let tmpIndex = index;
 
