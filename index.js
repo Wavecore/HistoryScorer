@@ -277,6 +277,11 @@ let tempHistory = {'chrome.google.com':{ id: 11111,
         lastVisitTime: '2017-09-28T15:52:33.483Z',
         title: 'SWE 432',
         url: 'piazza.com' }};
+//============================================================================================
+console.log("chrome.google.com  :"+historyReq.isValidURL("chrome.google.com"));  //True
+console.log("search.norton.com  :"+historyReq.isValidURL("search.norton.com"));  //True
+console.log("amazon.com'  :"+historyReq.isValidURL("amazon.com'"));  //False
+console.log("http://www2.amazon.com/folder/page.html?q=1  :"+historyReq.isValidURL("http://www2.amazon.com/folder/page.html?q=1")); //True
 //var temp = requester.addToRequest(Object.keys(tempHistory),{},[],0).then(function(res){console.log(res.webKeys)});
 //var temp = requester.sendManyWebsites(tempHistory,{},0).then(function(res,status){console.log(res);});
 setInterval(()=>{
