@@ -140,9 +140,7 @@ class History{
         return domain;
     }
 
-    getHostName() {
-
-            /*
+    getHostName(url) {
             var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
             if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
                 return match[2];
@@ -150,14 +148,13 @@ class History{
             else {
                 return null;
             }
-            */
-        return 'helllo';
     }
 
     // TODO we need to avoid duplicates so use dictionary or some list
     json2array(json,index ){
-
+        let historyClass = this;
         let tmpIndex = index;
+
         let history = this.history;
         let keys = Object.keys(json);
         let historyEntry;
@@ -167,10 +164,10 @@ class History{
             historyEntry = json[key];
             doExist=false;
             // format the url
-            var match = historyEntry.url.toString().match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
-            if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
-                console.log('historyEntry:' + historyEntry.url + "--" + match[2]);
-                historyEntry.url=match[2];
+            var match = historyClass.getHostName(historyEntry.url.toString());
+            if(match != null){
+                console.log('historyEntry:' + historyEntry.url + "--" + match);
+                historyEntry.url=match;
             }
 
             for(let i  in history){
@@ -198,9 +195,6 @@ class History{
         });
         this.history = history;
     }
-
-
-
     deleteByName(websiteName){
         let index = -1;
         for(let i  in this.history)
