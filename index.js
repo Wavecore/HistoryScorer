@@ -97,17 +97,57 @@ class History{
         this.history = new Array();
     }
 
+    getDomain(url) {
+        var hostName = this.getHostName(url);
+        var domain = hostName;
+
+        if (hostName != null) {
+            var parts = hostName.split('.').reverse();
+
+            if (parts != null && parts.length > 1) {
+                domain = parts[1] + '.' + parts[0];
+
+                if (hostName.toLowerCase().indexOf('.co.uk') != -1 && parts.length > 2) {
+                    domain = parts[2] + '.' + domain;
+                }
+            }
+        }
+
+        return domain;
+    }
+
+    getHostName() {
+
+            /*
+            var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+            if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+                return match[2];
+            }
+            else {
+                return null;
+            }
+            */
+        return 'helllo';
+    }
+
     // TODO we need to avoid duplicates so use dictionary or some list
     json2array(json,index ){
+
         let tmpIndex = index;
         let history = this.history;
         let keys = Object.keys(json);
         let historyEntry;
         let doExist=false;
+
         keys.forEach(function (key) {
             historyEntry = json[key];
             doExist=false;
-            //console.log('historyEntry:' + historyEntry.url + "--" + historyEntry.lastVisitTime);
+            // format the url
+            var match = historyEntry.url.toString().match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+            if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+                console.log('historyEntry:' + historyEntry.url + "--" + match[2]);
+                historyEntry.url=match[2];
+            }
 
             for(let i  in history){
                 //console.log('Exists:' + history[i].url.indexOf(historyEntry.url));
@@ -120,10 +160,10 @@ class History{
                     if(d1 >  d2){
                         //console.log('Exists22:' + history[i].url.indexOf(historyEntry.url));
                         history[i].lastVisitTime=historyEntry.lastVisitTime;
-                        // TODO Even if the this is not the lastVisited, it doesn't change the fact we visited the site a number of times so regardless of the last time visited we need to add the visitCount
-                        history[i].visitCount+=historyEntry.visitCount;
                         doExist=true;
                     }
+                    // TODO Even if the this is not the lastVisited, it doesn't change the fact we visited the site a number of times so regardless of the last time visited we need to add the visitCount
+                    history[i].visitCount+=historyEntry.visitCount;
                 }
             }
 
@@ -134,6 +174,9 @@ class History{
         });
         this.history = history;
     }
+
+
+
     deleteByName(websiteName){
         let index = -1;
         for(let i  in this.history)
