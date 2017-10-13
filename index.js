@@ -94,10 +94,11 @@ class WOTRequester{
         let keysToFormat = Object.keys(history);
         let requester = this;
         if(queriesPerDay > MAXQUERYPERDAY)
-            return res,1;
+            return {"res":res,"status":1};
         if(keysToFormat.length > index){
+            console.log(keysToFormat);
             return this.addToRequest(keysToFormat,res,[],index).then(function(resp){//,webKeys,index){
-                console.log(resp);
+                //console.log(resp);
                 let res = resp.res;
                 let webKeys = resp.webKeys;
                 let index = resp.index;
@@ -121,7 +122,7 @@ class WOTRequester{
                     });
             });
         }
-        return res;
+        return {"res":res,"status":0};
     }
     addToRequest(historyKeys,res,webKeys,index){//historyKeys = input keys,res = website information, webKeys = output keys, index = index of websites added so far
         let requester = this;
@@ -352,8 +353,17 @@ app.get("/score/:website",function(req,res){
 
 });
 //=============Scenario 2======================
-app.get("scores",function(req,res){
-
+app.get("/scores",function(req,res){
+    requester.sendManyWebsites(historyReq.history,{},0).then(function(resp,status){
+        if(status != -1){
+            for(let i in resp){
+                let webID = requester.formatWebsiteID(i);
+                console.log(webID);
+            }
+            res.send(resp);
+        }
+        console.log(res);
+    });
 });
 //=============Scenario 3======================
 app.post('/newsite/:website/:index?',function (req,res) {
@@ -366,7 +376,7 @@ app.post('/newsite/:website/:index?',function (req,res) {
     let website = {};
     website.visitCount = 1;
     website.url = req.params.website;
-    historyReq.json2Dictonary({0:website},index);
+    historyReq.json2Dictionary({0:website},index);
     console.log(historyReq.history);
     console.log("==================================================");
     res.sendStatus(200);
@@ -379,7 +389,7 @@ app.post('/newsites/:index?',function(req,res){
     }
     if(index > historyReq.history.length)
         index = historyReq.history.length;
-    historyReq.json2Dictonary(req.body,index);
+    historyReq.json2Dictionary(req.body,index);
     console.log(historyReq.history);
     console.log("==================================================");
     res.sendStatus(200);
