@@ -164,6 +164,17 @@ class History{
         }
     }
 
+    findKey(obj, value) {
+        var key;
+
+        _.each(obj, function (v, k) {
+            if (v === value) {
+                key = k;
+            }
+        });
+
+        return key;
+    }
 
     // TODO we need to avoid duplicates so use dictionary or some list
     json2Dictionary(json,index ){
@@ -190,8 +201,27 @@ class History{
                 return;
             }
 
-            //console.log('URL Valid:' + historyClass.isValidURL(historyEntry.url));
+           //console.log('URL Valid:' + history.keys(11111).url); //hasOwnProperty('url')); //("amazon.com"));
 
+            //console.log('Exist:' + history.hasOwnProperty(historyEntry.url) + "---" + history[historyEntry.url]);
+
+            //if ("11111" in history)
+            //console.log("FOUND" + Object.keys(history)[Object.values(history).indexOf("amazon.com")]);
+
+            //console.log("history[url]" + history["amazonu"]);
+
+            /*
+            history["url"]=historyEntry.url; //"amazon.com";
+
+            console.log("FOUND?:" + history["url"]);
+            if(history["url"]!=undefined){
+                console.log("Exists");
+            }
+            if(history["url"]==undefined){
+                console.log("Doesn't Exists");
+            }
+            */
+            /*
             for(let i  in history){
                 //console.log('Exists:' + history[i].url.indexOf(historyEntry.url));
                 // TODO format the url to so that only the nessecary components remain (currently the url isn't formated sot google.com/aa and google.com/bb will be treated as different entries
@@ -209,9 +239,10 @@ class History{
                     history[i].visitCount+=historyEntry.visitCount;
                 }
             }
+            */
 
             if(!doExist) {
-                history[ historyEntry.id ] = historyEntry;
+               history[ historyEntry.id ] = historyEntry;
             }
         });
         this.history = history;
@@ -295,7 +326,7 @@ app.post('/newsite/:website/:index?',function (req,res) {
     let website = {};
     website.visitCount = 1;
     website.url = req.params.website;
-    historyReq.json2Dictonary({0:website},index);
+    historyReq.json2Dictionary({0:website},index);
     console.log(historyReq.history);
     console.log("==================================================");
     res.sendStatus(200);
@@ -308,7 +339,7 @@ app.post('/newsites/:index?',function(req,res){
     }
     if(index > historyReq.history.length)
         index = historyReq.history.length;
-    historyReq.json2Dictonary(req.body,index);
+    historyReq.json2Dictionary(req.body,index);
     console.log(historyReq.history);
     console.log("==================================================");
     res.sendStatus(200);
