@@ -28,11 +28,24 @@ class WOTRequester{
     }
     getHostName(url) {
         var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
-        if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+        if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0)
             return match[2];
-        }
-        else {
+        else if(this.isValidURL(url))
+            return url;
+        else
             return null;
+    }
+    isValidURL(str) {
+        var pattern = new RegExp('^((https?:)?\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locater
+        if (!pattern.test(str)) {
+            return false;
+        } else {
+            return true;
         }
     }
     formatWebsiteID(website){
@@ -66,6 +79,7 @@ class WOTRequester{
     }
     sendRequest(website){
         let requester = this;
+        console.log("here");
         return fetch(this.requestTemplate1+website+this.requestTemplate2+this.key)
             .then(function(res){
                 return res.json();
@@ -82,13 +96,17 @@ class WOTRequester{
         if(queriesPerDay > MAXQUERYPERDAY)
             return res,1;
         if(keysToFormat.length > index){
-            return this.addToRequest(keysToFormat,res,[],index).then(function(res,webKeys,index){
+            return this.addToRequest(keysToFormat,res,[],index).then(function(resp){//,webKeys,index){
+                console.log(resp);
+                let res = resp.res;
+                let webKeys = resp.webKeys;
+                let index = resp.index;
                 let websites = "";
                 for(let i of webKeys) {
                     websites += i +"/";
                 }
                 websites = websites.substring(0,websites.length-1);
-                return fetch(requester.requestTemplate1+websites+requester.requestTemplate2+this.key)
+                return fetch(requester.requestTemplate1+websites+requester.requestTemplate2+requester.key)
                     .then(function(res){
                         return res.json();
                     }).then(function(json){
@@ -96,28 +114,29 @@ class WOTRequester{
                             let val = requester.formatResponse(json,i);
                             val.lastVisitTime =  history[i].lastVisitTime;
                             val.visits = history[i].visitCount;
-                            res.push({i:val});
+                            //res.push({i:val});
+                            res[i] = val;
                         }
                         return requester.sendManyWebsites(history,res,index);
                     });
             });
         }
-        return res,0;
+        return res;
     }
     addToRequest(historyKeys,res,webKeys,index){//historyKeys = input keys,res = website information, webKeys = output keys, index = index of websites added so far
         let requester = this;
-        console.log(historyKeys);
+       // console.log(historyKeys);
         if(webKeys.length < 100 && index < historyKeys.length){
-            console.log(index);
+            //console.log(index);
             let websiteID;
             let website = requester.getHostName(historyKeys[index]);
-            console.log(website);
+           // console.log(website);
             if(website != null)
                 websiteID = requester.formatWebsiteID(historyKeys[index]);
             else
                 return null;
             index++;
-            console.log("here");
+            //console.log("here");
             return database.ref("website/"+websiteID).once("value").then(function(snapshot){
                 if(snapshot.exists() && Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC) {
                     res.push(snapshot.val());
@@ -130,7 +149,7 @@ class WOTRequester{
             });
         }
         else{
-            console.log(webKeys);
+            //console.log(webKeys);
             return {res,webKeys,index};
         }
     }
@@ -278,12 +297,13 @@ let tempHistory = {'chrome.google.com':{ id: 11111,
         title: 'SWE 432',
         url: 'piazza.com' }};
 //============================================================================================
-console.log("chrome.google.com  :"+historyReq.isValidURL("chrome.google.com"));  //True
-console.log("search.norton.com  :"+historyReq.isValidURL("search.norton.com"));  //True
-console.log("amazon.com  :"+historyReq.isValidURL("amazon.com"));  //True
-console.log("http://www2.amazon.com/folder/page.html?q=1  :"+historyReq.isValidURL("http://www2.amazon.com/folder/page.html?q=1")); //True
+//console.log("chrome.google.com  :"+historyReq.isValidURL("chrome.google.com"));  //True
+//console.log("search.norton.com  :"+historyReq.isValidURL("search.norton.com"));  //True
+//console.log("amazon.com  :"+historyReq.isValidURL("amazon.com"));  //True
+//console.log("http://www2.amazon.com/folder/page.html?q=1  :"+historyReq.isValidURL("http://www2.amazon.com/folder/page.html?q=1")); //True
 //var temp = requester.addToRequest(Object.keys(tempHistory),{},[],0).then(function(res){console.log(res.webKeys)});
 //var temp = requester.sendManyWebsites(tempHistory,{},0).then(function(res,status){console.log(res);});
+//============================================================================================
 setInterval(()=>{
     queriesPerSec = 0;
     },1000);
@@ -329,6 +349,10 @@ app.get("/score/:website",function(req,res){
                 res.sendStatus(429); //User has sent too many requests in a given amount of time
         }
     });
+
+});
+//=============Scenario 2======================
+app.get("scores",function(req,res){
 
 });
 //=============Scenario 3======================
