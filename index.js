@@ -181,13 +181,13 @@ class History{
     }
 
     getHostName(url) {
-            var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
-            if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
-                return match[2];
-            }
-            else {
-                return null;
-            }
+        var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+        if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0)
+            return match[2];
+        else if(this.isValidURL(url))
+            return url;
+        else
+            return null;
     }
 
     isValidURL(str) {
@@ -203,7 +203,7 @@ class History{
             return true;
         }
     }
-
+    /*
     findKey(obj, value) {
         var key;
 
@@ -215,21 +215,37 @@ class History{
 
         return key;
     }
-
+    */
     // TODO we need to avoid duplicates so use dictionary or some list
-    json2Dictionary(json,index ){
+    json2Dictionary(json){
         let historyClass = this;
-        let tmpIndex = index;
+        //let tmpIndex = index;
 
         let history = this.history;
         let keys = Object.keys(json);
         let historyEntry;
-        let doExist=false;
+        //let doExist=false;
 
         keys.forEach(function (key) {
             historyEntry = json[key];
-            doExist=false;
-
+            delete historyEntry.id;
+            let webkey =  historyClass.getHostName(historyEntry.url);
+            if(webkey != null){
+                if(history[webkey] == undefined){
+                    history[webkey] = historyEntry;
+                }
+                else
+                {
+                    let entry = history[webkey];
+                    if(entry.lastVisitTime != undefined && historyEntry.lastVisitTime != undefined &&
+                        (new Date(entry.lastVisitTime) > new Date(historyEntry.lastVisitTime)))
+                        entry.lastVisitTime = historyEntry.lastVisitTime;
+                    entry.visitCount = entry.visitCount+historyEntry.visitCount;
+                    history[webkey] = entry;
+                }
+            }
+            /*
+            //doExist=false;
             if(historyClass.isValidURL(historyEntry.url)){
                 // format the url
                 var match = historyClass.getHostName(historyEntry.url.toString());
@@ -238,9 +254,8 @@ class History{
                     historyEntry.url=match;
                 }
             }else{
-                return;
+                return null;
             }
-
            //console.log('URL Valid:' + history.keys(11111).url); //hasOwnProperty('url')); //("amazon.com"));
 
             //console.log('Exist:' + history.hasOwnProperty(historyEntry.url) + "---" + history[historyEntry.url]);
@@ -279,11 +294,12 @@ class History{
                     history[i].visitCount+=historyEntry.visitCount;
                 }
             }
-            */
+
 
             if(!doExist) {
                history[ historyEntry.id ] = historyEntry;
             }
+            */
         });
         this.history = history;
 
@@ -397,30 +413,18 @@ app.get("/scores",function(req,res){
     });
 });
 //=============Scenario 3======================
-app.post('/newsite/:website/:index?',function (req,res) {
-    let index = req.params.index;
-    if(index == undefined) {
-        index = 0;
-    }
-    if(index > historyReq.history.length)
-        index = historyReq.history.length;
+app.post('/newsite/:website',function (req,res) {
     let website = {};
     website.visitCount = 1;
     website.url = req.params.website;
-    historyReq.json2Dictionary({0:website},index);
+    historyReq.json2Dictionary({0:website});
     console.log(historyReq.history);
     console.log("==================================================");
     res.sendStatus(200);
 });
 //=============Scenario 4======================
-app.post('/newsites/:index?',function(req,res){
-    let index = req.params.index;
-    if(index == undefined) {
-        index = 0;
-    }
-    if(index > historyReq.history.length)
-        index = historyReq.history.length;
-    historyReq.json2Dictionary(req.body,index);
+app.post('/newsites',function(req,res){
+    historyReq.json2Dictionary(req.body);
     console.log(historyReq.history);
     console.log("==================================================");
     res.sendStatus(200);

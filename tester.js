@@ -1,6 +1,6 @@
 var fetch = require('node-fetch');
 
-fetch(" http://localhost:5000/newsites/2",
+fetch(" http://localhost:5000/newsites",///www.youtube.com",
     {
         headers: {
             'Accept': 'application/json',
@@ -31,7 +31,7 @@ fetch(" http://localhost:5000/newsites/2",
                 visitCount:13,
                 lastVisitTime:'2017-09-28T15:51:33.483Z',
                 title:'SWE 432',
-                url:'http://www.piazza.com/aa'},
+                url:'www.piazza.com/aa'},
             4:{
                 id:44444,
                 visitCount:17,
