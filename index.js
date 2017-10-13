@@ -235,7 +235,7 @@ class History{
 
             console.log("FOUND?:" + history["url"]);
             if(history["url"]!=undefined){
-                console.log("Exists");
+                console.log("Exists"); 
             }
             if(history["url"]==undefined){
                 console.log("Doesn't Exists");
