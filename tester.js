@@ -1,6 +1,6 @@
 var fetch = require('node-fetch');
 
-fetch(" http://localhost:5000/deleteWeb/amazon.com",
+fetch(" http://localhost:5000/clear",
     {
         headers: {
             'Accept': 'application/json',

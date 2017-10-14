@@ -235,6 +235,7 @@ class History{
             if(webkey != null){
                 if(history[webkey] == undefined){
                     history[webkey] = historyEntry;
+                    history[webkey].url=webkey;
                 }
                 else
                 {
@@ -250,19 +251,10 @@ class History{
         this.history = history;
     }
     deleteByName(websiteName){
-        let index = -1;
-        for(let i  in this.history)
-            if(this.history[i].url == websiteName)
-                index = i;
-        if(index >= 0)
-            this.deleteByIndex(index);
-    }
-    deleteByIndex(index){
-        if(index < this.history.length)
-            this.history.splice(index,1);
+        delete this.history[websiteName];
     }
     clear(){
-        this.history = [];
+        this.history = {};
     }
 }
 var requester = new WOTRequester("6a61298751dcc88830b430677620aadde46cd213");
@@ -399,7 +391,6 @@ app.post('/newsites',function(req,res){
 //================Scenario 5===========================
 app.delete("/deleteWeb/:website", function(req,res){
     let website = req.params.website;
-    console.log("website==================================================" + website);
     historyReq.deleteByName(website);
     console.log(historyReq.history);
     res.sendStatus(200);
