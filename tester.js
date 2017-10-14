@@ -18,8 +18,8 @@ fetch(" http://localhost:5000/newsites",///www.youtube.com",
                 id:22222,
                 visitCount:183,
                 lastVisitTime:'2017-09-28T15:55:04.884Z',
-                title:'Safe Searchsearch.norton.com',
-                url:'fake news'},
+                title:'Safe Search Norton',
+                url:'www.youtube.com'},
             2:{
                 id:222555,
                 visitCount:12,
@@ -37,9 +37,31 @@ fetch(" http://localhost:5000/newsites",///www.youtube.com",
                 visitCount:17,
                 lastVisitTime:'2017-09-28T15:52:33.483Z',
                 title:'SWE 432',
-                url:'http://www.piazza.com/bb'}
+                url:'http://www.piazza.com/bb'},
+            5:{
+                id:44444,
+                visitCount:17,
+                lastVisitTime:'2017-09-28T15:52:33.483Z',
+                title:'Demo',
+                url:'www.demo.com'},
+            6:{
+                id:44444,
+                visitCount:17,
+                lastVisitTime:'2017-09-28T15:52:33.483Z',
+                title:'Demo',
+                url:'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach'},
+            7:{
+                id:44444,
+                visitCount:17,
+                lastVisitTime:'2017-09-28T15:52:33.483Z',
+                title:'Demo',
+                url:'http://regexr.com/foo.html?q=bar'},
+            8:{
+                id:44444,
+                visitCount:17,
+                lastVisitTime:'2017-09-28T15:52:33.483Z',
+                title:'Demo',
+                url:'https://mediatemple.net '}
         })
-
-        })
-  
+    })
     .then(function(res){ console.log("result: " + res.status) });

@@ -27,11 +27,16 @@ class WOTRequester{
         this.requestTemplate2 = '/&key=';
     }
     getHostName(url) {
-        var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
-        if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0)
-            return match[2];
-        else if(this.isValidURL(url))
-            return url;
+        if(this.isValidURL(url)){
+            let hostName = url;
+            hostName = hostName.replace(new RegExp('^((https?:)?\/\/)'),"");
+            hostName = hostName.replace(new RegExp('www\\.'),"");
+            hostName = hostName.replace(new RegExp('\/.*'),"");
+            if(this.isValidURL(hostName))
+                return hostName;
+            else
+                return null;
+        }
         else
             return null;
     }
@@ -79,7 +84,7 @@ class WOTRequester{
     }
     sendRequest(website){
         let requester = this;
-        console.log("here");
+        //console.log("here");
         return fetch(this.requestTemplate1+website+this.requestTemplate2+this.key)
             .then(function(res){
                 return res.json();
@@ -96,7 +101,7 @@ class WOTRequester{
         if(queriesPerDay > MAXQUERYPERDAY)
             return {"res":res,"status":1};
         if(keysToFormat.length > index){
-            console.log(keysToFormat);
+            //console.log(keysToFormat);
             return this.addToRequest(keysToFormat,res,[],index).then(function(resp){//,webKeys,index){
                 //console.log(resp);
                 let res = resp.res;
@@ -113,11 +118,14 @@ class WOTRequester{
                     }).then(function(json){
                         for(let i of webKeys){
                             let val = requester.formatResponse(json,i);
-                            val.lastVisitTime =  history[i].lastVisitTime;
+                            if(history[i].lastVisitTime != undefined)
+                                val.lastVisitTime =  history[i].lastVisitTime;
                             val.visits = history[i].visitCount;
                             //res.push({i:val});
                             res[i] = val;
                         }
+                        queriesPerSec++;
+                        queriesPerDay++;
                         return requester.sendManyWebsites(history,res,index);
                     });
             });
@@ -140,7 +148,15 @@ class WOTRequester{
             //console.log("here");
             return database.ref("website/"+websiteID).once("value").then(function(snapshot){
                 if(snapshot.exists() && Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC) {
-                    res.push(snapshot.val());
+                    let entry = snapshot.val();
+                    if(entry.visits != undefined)
+                        entry.visits += historyReq.history[website].visitCount;
+                    if(entry.lastVisitTime != undefined && historyReq.history[website].lastVisitTime != undefined &&
+                        (new Date(entry.lastVisitTime) < new Date(historyReq.history[website].lastVisitTime)))
+                        entry.lastVisitTime = historyReq.history[website].lastVisitTime
+                    else if(entry.lastVisitTime == undefined && historyReq.history[website].lastVisitTime != undefined)
+                        entry.lastVisitTime = historyReq.history[website].lastVisitTime
+                    res[website] = entry;
                     return requester.addToRequest(historyKeys,res,webKeys,index);
                 }
                 else{
@@ -179,17 +195,21 @@ class History{
 
         return domain;
     }
-
     getHostName(url) {
-        var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
-        if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0)
-            return match[2];
-        else if(this.isValidURL(url))
-            return url;
+        if(this.isValidURL(url)){
+            let hostName = url;
+            hostName = hostName.replace(new RegExp('^((https?:)?\/\/)'),"");
+            hostName = hostName.replace(new RegExp('www\\.'),"");
+            hostName = hostName.replace(new RegExp('\/.*'),"");
+            //console.log(hostName);
+            if(this.isValidURL(hostName))
+                return hostName;
+            else
+                return null;
+        }
         else
             return null;
     }
-
     isValidURL(str) {
         var pattern = new RegExp('^((https?:)?\\/\\/)?'+ // protocol
             '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
@@ -203,29 +223,11 @@ class History{
             return true;
         }
     }
-    /*
-    findKey(obj, value) {
-        var key;
-
-        _.each(obj, function (v, k) {
-            if (v === value) {
-                key = k;
-            }
-        });
-
-        return key;
-    }
-    */
-    // TODO we need to avoid duplicates so use dictionary or some list
     json2Dictionary(json){
         let historyClass = this;
-        //let tmpIndex = index;
-
         let history = this.history;
         let keys = Object.keys(json);
         let historyEntry;
-        //let doExist=false;
-
         keys.forEach(function (key) {
             historyEntry = json[key];
             delete historyEntry.id;
@@ -244,67 +246,8 @@ class History{
                     history[webkey] = entry;
                 }
             }
-            /*
-            //doExist=false;
-            if(historyClass.isValidURL(historyEntry.url)){
-                // format the url
-                var match = historyClass.getHostName(historyEntry.url.toString());
-                if(match != null){
-                    //console.log('historyEntry:' + historyEntry.url + "--" + match);
-                    historyEntry.url=match;
-                }
-            }else{
-                return null;
-            }
-           //console.log('URL Valid:' + history.keys(11111).url); //hasOwnProperty('url')); //("amazon.com"));
-
-            //console.log('Exist:' + history.hasOwnProperty(historyEntry.url) + "---" + history[historyEntry.url]);
-
-            //if ("11111" in history)
-            //console.log("FOUND" + Object.keys(history)[Object.values(history).indexOf("amazon.com")]);
-
-            //console.log("history[url]" + history["amazonu"]);
-
-            /*
-            history["url"]=historyEntry.url; //"amazon.com";
-
-            console.log("FOUND?:" + history["url"]);
-            if(history["url"]!=undefined){
-                console.log("Exists"); 
-            }
-            if(history["url"]==undefined){
-                console.log("Doesn't Exists");
-            }
-            */
-            /*
-            for(let i  in history){
-                //console.log('Exists:' + history[i].url.indexOf(historyEntry.url));
-                // TODO format the url to so that only the nessecary components remain (currently the url isn't formated sot google.com/aa and google.com/bb will be treated as different entries
-                if(history[i].url.indexOf(historyEntry.url)==0){
-                    var d1 = new Date(historyEntry.lastVisitTime);
-                    //console.log('d1:' + d1);
-
-                    var d2 = new Date(history[i].lastVisitTime);
-                    if(d1 >  d2){
-                        //console.log('Exists22:' + history[i].url.indexOf(historyEntry.url));
-                        history[i].lastVisitTime=historyEntry.lastVisitTime;
-                        doExist=true;
-                    }
-                    // TODO Even if the this is not the lastVisited, it doesn't change the fact we visited the site a number of times so regardless of the last time visited we need to add the visitCount
-                    history[i].visitCount+=historyEntry.visitCount;
-                }
-            }
-
-
-            if(!doExist) {
-               history[ historyEntry.id ] = historyEntry;
-            }
-            */
         });
         this.history = history;
-
-        //console.log("visitCount:" + history[33333].visitCount);
-        //console.log("url:" + history[33333].url);
     }
     deleteByName(websiteName){
         let index = -1;
@@ -347,7 +290,10 @@ let tempHistory = {'chrome.google.com':{ id: 11111,
 //============================================================================================
 //console.log("chrome.google.com  :"+historyReq.isValidURL("chrome.google.com"));  //True
 //console.log("search.norton.com  :"+historyReq.isValidURL("search.norton.com"));  //True
-//console.log("amazon.com  :"+historyReq.isValidURL("amazon.com"));  //True
+//let web = ['www.demo.com','http://foo.co.uk/','http://regexr.com/foo.html?q=bar','https://mediatemple.net','http://www.piazza.com/bb','www.piazza.com/aa','http://www2.amazon.com/folder/page.html?q=1','chrome.google.com'];
+//web.forEach((res)=>{
+//    console.log(res+"  :"+historyReq.isValidURL(res)+"   "+historyReq.getHostName(res));  //True
+//});
 //console.log("http://www2.amazon.com/folder/page.html?q=1  :"+historyReq.isValidURL("http://www2.amazon.com/folder/page.html?q=1")); //True
 //var temp = requester.addToRequest(Object.keys(tempHistory),{},[],0).then(function(res){console.log(res.webKeys)});
 //var temp = requester.sendManyWebsites(tempHistory,{},0).then(function(res,status){console.log(res);});
@@ -401,15 +347,36 @@ app.get("/score/:website",function(req,res){
 });
 //=============Scenario 2======================
 app.get("/scores",function(req,res){
-    requester.sendManyWebsites(historyReq.history,{},0).then(function(resp,status){
+   // console.log("start");
+    requester.sendManyWebsites(historyReq.history,{},0).then(function(response){
+        //console.log("query is done");
+        let status = response.status;
+        let resp = response.res;
+        //console.log(status);
+        //console.log(resp);
         if(status != -1){
             for(let i in resp){
+                //console.log(i);
                 let webID = requester.formatWebsiteID(i);
-                console.log(webID);
+                //console.log(webID);
+                database.ref("website/"+webID).once("value").then(function(snapshot){
+                    if(snapshot.exists()){//} && resp[i].lastModified > snapshot.val().lastModified) {
+                        database.ref("website/"+webID).update(resp[i]);
+                        //res.push(snapshot.val());
+                        //return requester.addToRequest(historyKeys,res,webKeys,index);
+                    }/*
+                    else if(snapshot.exists()){
+                        resp[i].visits = resp[i].visits + snapshot.val().visits
+                        database.ref("website/"+webID).set(resp[i]);
+                    }*/
+                    else{
+                        database.ref("website/"+webID).set(resp[i]);
+                    }
+                });
             }
             res.send(resp);
         }
-        console.log(res);
+        //console.log(res);
     });
 });
 //=============Scenario 3======================
@@ -418,15 +385,15 @@ app.post('/newsite/:website',function (req,res) {
     website.visitCount = 1;
     website.url = req.params.website;
     historyReq.json2Dictionary({0:website});
-    console.log(historyReq.history);
-    console.log("==================================================");
+    //console.log(historyReq.history);
+    //console.log("==================================================");
     res.sendStatus(200);
 });
 //=============Scenario 4======================
 app.post('/newsites',function(req,res){
     historyReq.json2Dictionary(req.body);
-    console.log(historyReq.history);
-    console.log("==================================================");
+    //console.log(historyReq.history);
+    //console.log("==================================================");
     res.sendStatus(200);
 });
 //================Scenario 5===========================
