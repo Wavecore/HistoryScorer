@@ -1,14 +1,14 @@
 var fetch = require('node-fetch');
 
-fetch(" http://localhost:5000/clear",
+fetch(" http://localhost:5000/newsites",
     {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
 
-        method: "DELETE",
-        /*body: JSON.stringify({0:{
+        method: "POST",
+        body: JSON.stringify({0:{
             id:11111,
             visitCount:2,
             lastVisitTime:'2017-09-28T15:58:49.045Z',
@@ -22,7 +22,7 @@ fetch(" http://localhost:5000/clear",
                 url:'www.youtube.com'},
             2:{
                 id:222555,
-                visitCount:12,
+                visitCount:225,
                 lastVisitTime:'2017-09-28T15:57:04.884Z',
                 title:'Amazon',
                 url:'http://www2.amazon.com/folder/page.html?q=1'},
@@ -52,7 +52,7 @@ fetch(" http://localhost:5000/clear",
                 url:'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach'},
             7:{
                 id:44444,
-                visitCount:17,
+                visitCount:375,
                 lastVisitTime:'2017-09-28T15:52:33.483Z',
                 title:'Demo',
                 url:'http://regexr.com/foo.html?q=bar'},
@@ -62,6 +62,6 @@ fetch(" http://localhost:5000/clear",
                 lastVisitTime:'2017-09-28T15:52:33.483Z',
                 title:'Demo',
                 url:'https://mediatemple.net '}
-        })*/
+        })
     })
     .then(function(res){ console.log("result: " + res.status) });

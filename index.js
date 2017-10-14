@@ -250,6 +250,18 @@ class History{
         });
         this.history = history;
     }
+    getVisitCountByNameinHistory(websiteName){
+        if(this.history[websiteName] == undefined){
+            return 0;
+        }
+        return this.history[websiteName].visitCount;
+    }
+    getVisitCountinFirebase(websiteName){
+        if(this.history[websiteName] == undefined){
+            return 0;
+        }
+        return this.history[websiteName].visitCount;
+    }
     deleteByName(websiteName){
         delete this.history[websiteName];
     }
@@ -402,10 +414,53 @@ app.delete("/clear",function(req,res){
     res.sendStatus(200);
 });
 //===============Scenario 10===============
+app.get("/numvisitsinHistory/:website", function (req,res) {
+    let website = req.params.website;
+    res.send(""+historyReq.getVisitCountinHistory(website));
+});
+//===============Scenario 11===============
+app.get("/numvisitsinFirebase/:website", function (req,res) {
+    let websiteID = requester.formatWebsiteID(req.params.website.toString());
+    //console.log(websiteID);
+    database.ref("website/"+websiteID).once("value").then(function(snapshot){
+        if(snapshot.exists() && (queriesPerDay > MAXQUERYPERDAY || Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC)){
+            let update = snapshot.val();
+            update.visits++;
+            update.lastModified  = Date.now();
+            database.ref("website/"+websiteID).update(update);
+            //console.log("1111:" + update.visits);
+            res.send(""+update.visits);
+        }else{
+            if(queriesPerDay < MAXQUERYPERDAY) {
+                if (queriesPerSec < MAXQUERYPERSEC) {
+                    queriesPerSec++;
+                    queriesPerDay++;
+                    requester.sendRequest(req.params.website).then((score)=>{
+                        database.ref("website/"+websiteID).set(score);
+                        res.send(score);
+                    });
+                }
+            }
+            else
+                res.sendStatus(429); //User has sent too many requests in a given amount of time
+        }
+    });
+});
+//===============Scenario 12===============
 app.get("/history",function(req,res){
     res.send(historyReq.history);
 });
 
+//===============Scenario 13==============
+app.get("/mostvisitedWebsite",function(req,res){
+    var data = Object.keys(historyReq.history).map(function ( key ) { return historyReq.history[key]; });
+
+    // console.log(data.reduce((max, p) => p.visitCount > max ? p.visitCount : max, data[0].visitCount)); // returns the max visit count
+    let maxVisit = data.reduce((prev, current) => (prev.visitCount > current.visitCount) ? prev : current)
+    console.log("maxVisit:" + maxVisit.url);
+
+    res.send(maxVisit.url);
+});
 
 /*
 app.put("/scores",function(req,res){
