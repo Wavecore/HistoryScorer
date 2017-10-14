@@ -313,7 +313,7 @@ app.listen(app.get('port'), function(){
 app.get("/GET",function(req,res){
     //history.push("string 1");
     //history.push("string 2");
-    res.send("test history");
+    res.send("test history1");
 });
 //===============================================================
 //================Scenario 1================
@@ -392,21 +392,15 @@ app.post('/newsite/:website',function (req,res) {
 //=============Scenario 4======================
 app.post('/newsites',function(req,res){
     historyReq.json2Dictionary(req.body);
-    //console.log(historyReq.history);
+    console.log(historyReq.history);
     //console.log("==================================================");
     res.sendStatus(200);
 });
 //================Scenario 5===========================
 app.delete("/deleteWeb/:website", function(req,res){
     let website = req.params.website;
+    console.log("website==================================================" + website);
     historyReq.deleteByName(website);
-    console.log(historyReq.history);
-    res.sendStatus(200);
-});
-//================Scenario 6===========================
-app.delete("/deleteIndex/:index", function(req,res){
-    let index = req.params.index;
-    historyReq.deleteByIndex(index);
     console.log(historyReq.history);
     res.sendStatus(200);
 });

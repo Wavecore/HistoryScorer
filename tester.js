@@ -1,14 +1,14 @@
 var fetch = require('node-fetch');
 
-fetch(" http://localhost:5000/newsites",///www.youtube.com",
+fetch(" http://localhost:5000/deleteWeb/amazon.com",
     {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
 
-        method: "POST",
-        body: JSON.stringify({0:{
+        method: "DELETE",
+        /*body: JSON.stringify({0:{
             id:11111,
             visitCount:2,
             lastVisitTime:'2017-09-28T15:58:49.045Z',
@@ -62,6 +62,6 @@ fetch(" http://localhost:5000/newsites",///www.youtube.com",
                 lastVisitTime:'2017-09-28T15:52:33.483Z',
                 title:'Demo',
                 url:'https://mediatemple.net '}
-        })
+        })*/
     })
     .then(function(res){ console.log("result: " + res.status) });
