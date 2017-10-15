@@ -412,6 +412,8 @@ app.get("/score/:website",function(req,res){
 //=============Scenario 2======================
 app.get("/scores",function(req,res){
     requester.scoreWebsites(historyReq.history).then((scores)=>{
+        for(let index in scores)
+            scores[index].visits = historyReq.history[index].visitCount;
         res.send(scores);
     });
 });
@@ -449,14 +451,29 @@ app.delete("/clear",function(req,res){
 //===============Scenario 8===============
 app.get("/browsingScore",function (req,res){
     let history = historyReq.history;
-    let broswingScore = 0;
+    let goodBrowsingScore = 0;
+    let badBrowsingScore = 0;
+    let goodTotal = 0;
+    let badTotal = 0;
+    let finalBrowsingScore = 0;
     requester.scoreWebsites(history).then((scores)=>{
         for(let index in scores){
-            let categories = scores[index].categories;
-            
+            console.log("Web: "+scores[index].url +", Score: "+ scores[index].trustworthiness.reputation +", visits: "+history[index].visitCount);
+            if(scores[index].trustworthiness.reputation >= 60){
+                goodBrowsingScore += scores[index].trustworthiness.reputation * history[index].visitCount;
+                goodTotal += history[index].visitCount;
+            }
+            else{
+                badBrowsingScore += scores[index].trustworthiness.reputation * history[index].visitCount;
+                badTotal += history[index].visitCount;
+            }
         }
-        //console.log(risks);
-        res.send(risks);
+        if(goodTotal > badTotal)
+            finalBrowsingScore = (2*(badBrowsingScore/badTotal)+(goodBrowsingScore/goodTotal))/3;
+        else
+            finalBrowsingScore = (badBrowsingScore+goodBrowsingScore)/(badTotal+goodTotal);
+        //console.log(""+browsingScore+"/"+total+" = "+browsingScore/total);
+        res.send(""+Math.floor(finalBrowsingScore));
     });
 });
 //===============Scenario 9===============
