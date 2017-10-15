@@ -32,6 +32,7 @@ class WOTRequester{
             hostName = hostName.replace(new RegExp('^((https?:)?\/\/)'),"");
             hostName = hostName.replace(new RegExp('www\\.'),"");
             hostName = hostName.replace(new RegExp('\/.*'),"");
+            hostName = hostName.replace(new RegExp(' '),"");
             if(this.isValidURL(hostName))
                 return hostName;
             else
@@ -89,7 +90,10 @@ class WOTRequester{
             .then(function(res){
                 return res.json();
             }).then(function(json){
-                return requester.formatResponse(json,website);
+                if(json != undefined)
+                    return requester.formatResponse(json,website);
+                else
+                    return json;
             });
     }
     scoreWebsite(website){
@@ -109,12 +113,13 @@ class WOTRequester{
                     while(queriesPerSec >= MAXQUERYPERSEC)
                         queriesPerSec = queriesPerSec;
                     //if (queriesPerSec < MAXQUERYPERSEC) {
-                        queriesPerSec++;
-                        queriesPerDay++;
-                        requester.sendRequest(webName).then((score)=>{
+                    queriesPerSec++;
+                    queriesPerDay++;
+                    return requester.sendRequest(webName).then((score)=>{
+                        if(score != undefined)
                             database.ref("website/"+websiteID).set(score);
-                            return score;
-                        });
+                        return score;
+                    });
                     //}
                 }
                 else
@@ -287,6 +292,7 @@ class History{
             historyEntry = json[key];
             delete historyEntry.id;
             let webkey =  historyClass.getHostName(historyEntry.url);
+           // console.log(webkey);
             if(webkey != null){
                 if(history[webkey] == undefined){
                     history[webkey] = historyEntry;
@@ -460,6 +466,20 @@ app.get("/mostVisitedWebsite",function(req,res){
     console.log("maxVisit:" + maxVisit.url);
 
     res.send(maxVisit.url);
+});
+//===============Scenario 14==============
+app.get("/mostVisitedGoodWebsite",function(req,res){
+    let history = historyReq.history;
+    requester.scoreWebsites(history).then((scores)=>{
+        let keys = Object.keys(scores);
+        let maxVisit = keys.reduce((accumulator,current)=>{
+            if(scores[current].trustworthiness.reputation > 60 && (accumulator == null || (scores[current].visits > scores[accumulator].visits)))
+                return current;
+            else
+                return accumulator;
+                },null);
+        res.send(maxVisit);
+    });
 });
 
 
