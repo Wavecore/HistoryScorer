@@ -59,10 +59,10 @@ fetch(" http://localhost:5000/newSites",
              url:'http://regexr.com/foo.html?q=bar'},
          8:{
              id:44444,
-             visitCount:17,
+             visitCount:888,
              lastVisitTime:'2017-09-28T15:52:33.483Z',
              title:'Demo',
-             url:'https://mediatemple.net '}
+             url:'piratebay.com'}
      })
     })
     .then(function(res){ console.log("result: " + res.status) });

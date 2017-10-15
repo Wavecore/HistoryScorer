@@ -25,6 +25,29 @@ class WOTRequester{
         this.key = key;
         this.requestTemplate1 = 'http://api.mywot.com/0.4/public_link_json2?hosts=';
         this.requestTemplate2 = '/&key=';
+        this.categoryID = {
+            101:"Malware or viruses",
+            102:"Poor customer experience",
+            103:"Phishing",
+            104:"Scam",
+            105:"Potentially illegal",
+            201:"Misleading claims or unethical",
+            202:"Privacy risks",
+            203:"Suspicious",
+            204:"Hate, discrimination",
+            205:"Spam",
+            206:"Potentially unwanted programs",
+            207:"Ads/ pop-ups",
+            301:"Online tracking",
+            302:"Alternative or controversial medicine",
+            303:"Opinions, religion, politics",
+            304:"Other",
+            401:"Adult content",
+            402:"Incidental nudity",
+            403:"Gruesome or shocking",
+            404:"Site for kids",
+            501:"Good site"
+        };
     }
     getHostName(url) {
         if(this.isValidURL(url)){
@@ -32,6 +55,7 @@ class WOTRequester{
             hostName = hostName.replace(new RegExp('^((https?:)?\/\/)'),"");
             hostName = hostName.replace(new RegExp('www\\.'),"");
             hostName = hostName.replace(new RegExp('\/.*'),"");
+            hostName = hostName.replace(new RegExp(' '),"");
             if(this.isValidURL(hostName))
                 return hostName;
             else
@@ -52,6 +76,9 @@ class WOTRequester{
         } else {
             return true;
         }
+    }
+    convertCategories(identrifier){
+        return this.categoryID[identrifier];
     }
     formatWebsiteID(website){
         let formatted = this.getHostName(website);
@@ -89,7 +116,10 @@ class WOTRequester{
             .then(function(res){
                 return res.json();
             }).then(function(json){
-                return requester.formatResponse(json,website);
+                if(json != undefined)
+                    return requester.formatResponse(json,website);
+                else
+                    return json;
             });
     }
     scoreWebsite(website){
@@ -109,12 +139,13 @@ class WOTRequester{
                     while(queriesPerSec >= MAXQUERYPERSEC)
                         queriesPerSec = queriesPerSec;
                     //if (queriesPerSec < MAXQUERYPERSEC) {
-                        queriesPerSec++;
-                        queriesPerDay++;
-                        requester.sendRequest(webName).then((score)=>{
+                    queriesPerSec++;
+                    queriesPerDay++;
+                    return requester.sendRequest(webName).then((score)=>{
+                        if(score != undefined)
                             database.ref("website/"+websiteID).set(score);
-                            return score;
-                        });
+                        return score;
+                    });
                     //}
                 }
                 else
@@ -287,6 +318,7 @@ class History{
             historyEntry = json[key];
             delete historyEntry.id;
             let webkey =  historyClass.getHostName(historyEntry.url);
+           // console.log(webkey);
             if(webkey != null){
                 if(history[webkey] == undefined){
                     history[webkey] = historyEntry;
@@ -414,6 +446,19 @@ app.delete("/clear",function(req,res){
     historyReq.clear();
     res.sendStatus(200);
 });
+//===============Scenario 8===============
+app.get("/browsingScore",function (req,res){
+    let history = historyReq.history;
+    let broswingScore = 0;
+    requester.scoreWebsites(history).then((scores)=>{
+        for(let index in scores){
+            let categories = scores[index].categories;
+            
+        }
+        //console.log(risks);
+        res.send(risks);
+    });
+});
 //===============Scenario 9===============
 app.get("/numVisitsInHistory/:website", function (req,res) {
     let website = req.params.website;
@@ -434,6 +479,26 @@ app.get("/numVisitsInFirebase/:website", function (req,res) {
     });
 
 });
+//===============Scenario 11===============
+app.get("/risks",function (req,res){
+   let history = historyReq.history;
+   let risks = [];
+   requester.scoreWebsites(history).then((scores)=>{
+        for(let index in scores){
+            let categories = scores[index].categories;
+            for(let risk in categories){
+                if(risk == 404 || risk == 501)
+                    continue;
+                let riskDetail = requester.convertCategories(risk);
+                if(riskDetail != undefined && risks.indexOf(riskDetail) == -1){
+                    risks.push(riskDetail);
+                }
+            }
+        }
+        //console.log(risks);
+        res.send(risks);
+   });
+});
 //===============Scenario 12===============
 app.get("/history",function(req,res){
     res.send(historyReq.history);
@@ -445,6 +510,20 @@ app.get("/mostVisitedWebsite",function(req,res){
     let maxVisit = data.reduce((prev, current) => (prev.visitCount > current.visitCount) ? prev : current)
     //console.log("maxVisit:" + maxVisit.url);
     res.send(maxVisit.url);
+});
+//===============Scenario 14==============
+app.get("/mostVisitedGoodWebsite",function(req,res){
+    let history = historyReq.history;
+    requester.scoreWebsites(history).then((scores)=>{
+        let keys = Object.keys(scores);
+        let maxVisit = keys.reduce((accumulator,current)=>{
+            if(scores[current].trustworthiness.reputation > 60 && (accumulator == null || (scores[current].visits > scores[accumulator].visits)))
+                return current;
+            else
+                return accumulator;
+                },null);
+        res.send(maxVisit);
+    });
 });
 
 
