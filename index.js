@@ -422,30 +422,17 @@ app.get("/numVisitsInHistory/:website", function (req,res) {
 //===============Scenario 10===============
 app.get("/numVisitsInFirebase/:website", function (req,res) {
     let websiteID = requester.formatWebsiteID(req.params.website.toString());
-    //console.log(websiteID);
+
     database.ref("website/"+websiteID).once("value").then(function(snapshot){
-        if(snapshot.exists() && (queriesPerDay > MAXQUERYPERDAY || Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC)){
-            let update = snapshot.val();
-            update.visits++;
-            update.lastModified  = Date.now();
-            database.ref("website/"+websiteID).update(update);
-            //console.log("1111:" + update.visits);
-            res.send(""+update.visits);
+        if(snapshot.exists()){
+            let post = snapshot.val();
+            console.log("Visits:" + post.visits);
+            res.send(""+post.visits);
         }else{
-            if(queriesPerDay < MAXQUERYPERDAY) {
-                if (queriesPerSec < MAXQUERYPERSEC) {
-                    queriesPerSec++;
-                    queriesPerDay++;
-                    requester.sendRequest(req.params.website).then((score)=>{
-                        database.ref("website/"+websiteID).set(score);
-                        res.send(score);
-                    });
-                }
-            }
-            else
-                res.sendStatus(429); //User has sent too many requests in a given amount of time
+            res.send(400);
         }
     });
+
 });
 //===============Scenario 12===============
 app.get("/history",function(req,res){
