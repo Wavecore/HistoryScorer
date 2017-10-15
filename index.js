@@ -90,11 +90,15 @@ class WOTRequester{
     formatResponse(res,website){
         let score = res[website];
         let trust = {}
+        if(score['0'] == undefined)
+            return undefined;
         trust.reputation = score['0']['0'];
         trust.confidence = score['0']['1'];
         score.trustworthiness = trust;
         delete  score['0'];
         let safety = {};
+        if(score['4'] == undefined)
+            return undefined;
         safety.reputation = score['4']['0'];
         safety.confidence = score['4']['1'];
         score.childSafety = safety;
@@ -116,6 +120,7 @@ class WOTRequester{
             .then(function(res){
                 return res.json();
             }).then(function(json){
+                console.log(json);
                 if(json != undefined)
                     return requester.formatResponse(json,website);
                 else
@@ -159,17 +164,20 @@ class WOTRequester{
     scoreWebsites(websites){
         return requester.sendManyWebsites(websites,{},0).then(function(response){
             let status = response.status;
-            let resp = response.res;
+            var resp = response.res;
             if(status != -1){
-                for(let i in resp){
-                    let webID = requester.formatWebsiteID(i);
+                Object.keys(resp).forEach((key)=>{
+                    let webID = requester.formatWebsiteID(key);
+                    let entry = {}
+                    for(let index in resp[key])
+                        entry[index] = resp[key][index];
                     database.ref("website/"+webID).once("value").then(function(snapshot){
                         if(snapshot.exists())
-                            database.ref("website/"+webID).update(resp[i]);
+                            database.ref("website/"+webID).update(entry);
                         else
-                            database.ref("website/"+webID).set(resp[i]);
+                            database.ref("website/"+webID).set(entry);
                     });
-                }
+                });
                 return resp;
             }
             return null;
@@ -185,6 +193,8 @@ class WOTRequester{
             return this.addToRequest(keysToFormat,res,[],index).then(function(resp){//,webKeys,index){
                 //console.log(resp);
                 let res = resp.res;
+                //for(let index in res)
+                 //   console.log("here2 "+res[index].url+"     "+res[index].visits);
                 let webKeys = resp.webKeys;
                 let index = resp.index;
                 let websites = "";
@@ -203,19 +213,21 @@ class WOTRequester{
                         }).then(function (json) {
                             for (let i of webKeys) {
                                 let val = requester.formatResponse(json, i);
+                                if(val == undefined)
+                                    continue;
                                 if (history[i].lastVisitTime != undefined)
                                     val.lastVisitTime = history[i].lastVisitTime;
-                                val.visits = history[i].visitCount;
-                                //res.push({i:val});
                                 res[i] = val;
                             }
                             return requester.sendManyWebsites(history, res, index);
                         });
                 }
                 else
-                    return res;
+                    return {"res":res,"status":1};
             });
         }
+       // for(let index in res)
+         //   console.log("here 3 "+res[index].url+"    "+res[index].visits);
         return {"res":res,"status":0};
     }
     addToRequest(historyKeys,res,webKeys,index){//historyKeys = input keys,res = website information, webKeys = output keys, index = index of websites added so far
@@ -234,7 +246,7 @@ class WOTRequester{
             //console.log("here");
             return database.ref("website/"+websiteID).once("value").then(function(snapshot){
                 if(snapshot.exists() && Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC) {
-                    let entry = snapshot.val();
+                    var entry = snapshot.val();
                     if(entry.visits != undefined)
                         entry.visits += historyReq.history[website].visitCount;
                     if(entry.lastVisitTime != undefined && historyReq.history[website].lastVisitTime != undefined &&
@@ -243,6 +255,7 @@ class WOTRequester{
                     else if(entry.lastVisitTime == undefined && historyReq.history[website].lastVisitTime != undefined)
                         entry.lastVisitTime = historyReq.history[website].lastVisitTime
                     res[website] = entry;
+                    console.log(entry.url +"    "+entry.visits);
                     return requester.addToRequest(historyKeys,res,webKeys,index);
                 }
                 else{
@@ -406,6 +419,8 @@ app.get("/GET",function(req,res){
 //================Scenario 1================
 app.get("/score/:website",function(req,res){
     requester.scoreWebsite(req.params.website.toString()).then((resp)=>{
+        if(resp == undefined)
+            res.send("Website does not exist in database");
         res.send(resp);
     });
 });
@@ -458,7 +473,6 @@ app.get("/browsingScore",function (req,res){
     let finalBrowsingScore = 0;
     requester.scoreWebsites(history).then((scores)=>{
         for(let index in scores){
-            console.log("Web: "+scores[index].url +", Score: "+ scores[index].trustworthiness.reputation +", visits: "+history[index].visitCount);
             if(scores[index].trustworthiness.reputation >= 60){
                 goodBrowsingScore += scores[index].trustworthiness.reputation * history[index].visitCount;
                 goodTotal += history[index].visitCount;
@@ -468,11 +482,8 @@ app.get("/browsingScore",function (req,res){
                 badTotal += history[index].visitCount;
             }
         }
-        if(goodTotal > badTotal)
-            finalBrowsingScore = (2*(badBrowsingScore/badTotal)+(goodBrowsingScore/goodTotal))/3;
-        else
-            finalBrowsingScore = (badBrowsingScore+goodBrowsingScore)/(badTotal+goodTotal);
-        //console.log(""+browsingScore+"/"+total+" = "+browsingScore/total);
+        let multiplier = Math.pow((goodTotal/(goodTotal+badTotal)),3);
+        finalBrowsingScore = (goodBrowsingScore/goodTotal)*multiplier + (badBrowsingScore/badTotal)*(1-multiplier);
         res.send(""+Math.floor(finalBrowsingScore));
     });
 });
