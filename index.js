@@ -25,6 +25,29 @@ class WOTRequester{
         this.key = key;
         this.requestTemplate1 = 'http://api.mywot.com/0.4/public_link_json2?hosts=';
         this.requestTemplate2 = '/&key=';
+        this.categoryID = {
+            101:"Malware or viruses",
+            102:"Poor customer experience",
+            103:"Phishing",
+            104:"Scam",
+            105:"Potentially illegal",
+            201:"Misleading claims or unethical",
+            202:"Privacy risks",
+            203:"Suspicious",
+            204:"Hate, discrimination",
+            205:"Spam",
+            206:"Potentially unwanted programs",
+            207:"Ads/ pop-ups",
+            301:"Online tracking",
+            302:"Alternative or controversial medicine",
+            303:"Opinions, religion, politics",
+            304:"Other",
+            401:"Adult content",
+            402:"Incidental nudity",
+            403:"Gruesome or shocking",
+            404:"Site for kids",
+            501:"Good site"
+        };
     }
     getHostName(url) {
         if(this.isValidURL(url)){
@@ -53,6 +76,9 @@ class WOTRequester{
         } else {
             return true;
         }
+    }
+    convertCategories(identrifier){
+        return this.categoryID[identrifier];
     }
     formatWebsiteID(website){
         let formatted = this.getHostName(website);
@@ -420,6 +446,19 @@ app.delete("/clear",function(req,res){
     historyReq.clear();
     res.sendStatus(200);
 });
+//===============Scenario 8===============
+app.get("/browsingScore",function (req,res){
+    let history = historyReq.history;
+    let broswingScore = 0;
+    requester.scoreWebsites(history).then((scores)=>{
+        for(let index in scores){
+            let categories = scores[index].categories;
+            
+        }
+        //console.log(risks);
+        res.send(risks);
+    });
+});
 //===============Scenario 9===============
 app.get("/numVisitsInHistory/:website", function (req,res) {
     let website = req.params.website;
@@ -440,6 +479,26 @@ app.get("/numVisitsInFirebase/:website", function (req,res) {
     });
 
 });
+//===============Scenario 11===============
+app.get("/risks",function (req,res){
+   let history = historyReq.history;
+   let risks = [];
+   requester.scoreWebsites(history).then((scores)=>{
+        for(let index in scores){
+            let categories = scores[index].categories;
+            for(let risk in categories){
+                if(risk == 404 || risk == 501)
+                    continue;
+                let riskDetail = requester.convertCategories(risk);
+                if(riskDetail != undefined && risks.indexOf(riskDetail) == -1){
+                    risks.push(riskDetail);
+                }
+            }
+        }
+        //console.log(risks);
+        res.send(risks);
+   });
+});
 //===============Scenario 12===============
 app.get("/history",function(req,res){
     res.send(historyReq.history);
@@ -450,8 +509,7 @@ app.get("/mostVisitedWebsite",function(req,res){
 
     // console.log(data.reduce((max, p) => p.visitCount > max ? p.visitCount : max, data[0].visitCount)); // returns the max visit count
     let maxVisit = data.reduce((prev, current) => (prev.visitCount > current.visitCount) ? prev : current)
-    console.log("maxVisit:" + maxVisit.url);
-
+    //console.log("maxVisit:" + maxVisit.url);
     res.send(maxVisit.url);
 });
 //===============Scenario 14==============
