@@ -453,7 +453,6 @@ app.get("/browsingScore",function (req,res){
     requester.scoreWebsites(history).then((scores)=>{
         for(let index in scores){
             let categories = scores[index].categories;
-            
         }
         //console.log(risks);
         res.send(risks);
