@@ -250,20 +250,16 @@ class History{
         });
         this.history = history;
     }
-    getVisitCountByNameinHistory(websiteName){
-        if(this.history[websiteName] == undefined){
+    getVisitCountByNameInHistory(websiteName){
+        let webName = this.getHostName(websiteName);
+        if(this.history[webName] == undefined){
             return 0;
         }
-        return this.history[websiteName].visitCount;
-    }
-    getVisitCountinFirebase(websiteName){
-        if(this.history[websiteName] == undefined){
-            return 0;
-        }
-        return this.history[websiteName].visitCount;
+        return this.history[webName].visitCount;
     }
     deleteByName(websiteName){
-        delete this.history[websiteName];
+        let webName = this.getHostName(websiteName);
+        delete this.history[webName];
     }
     clear(){
         this.history = {};
@@ -366,13 +362,7 @@ app.get("/scores",function(req,res){
                 database.ref("website/"+webID).once("value").then(function(snapshot){
                     if(snapshot.exists()){//} && resp[i].lastModified > snapshot.val().lastModified) {
                         database.ref("website/"+webID).update(resp[i]);
-                        //res.push(snapshot.val());
-                        //return requester.addToRequest(historyKeys,res,webKeys,index);
-                    }/*
-                    else if(snapshot.exists()){
-                        resp[i].visits = resp[i].visits + snapshot.val().visits
-                        database.ref("website/"+webID).set(resp[i]);
-                    }*/
+                    }
                     else{
                         database.ref("website/"+webID).set(resp[i]);
                     }
@@ -384,7 +374,7 @@ app.get("/scores",function(req,res){
     });
 });
 //=============Scenario 3======================
-app.post('/newsite/:website',function (req,res) {
+app.post('/newSite/:website',function (req,res) {
     let website = {};
     website.visitCount = 1;
     website.url = req.params.website;
@@ -394,9 +384,9 @@ app.post('/newsite/:website',function (req,res) {
     res.sendStatus(200);
 });
 //=============Scenario 4======================
-app.post('/newsites',function(req,res){
+app.post('/newSites',function(req,res){
     historyReq.json2Dictionary(req.body);
-    console.log(historyReq.history);
+   // console.log(historyReq.history);
     //console.log("==================================================");
     res.sendStatus(200);
 });
@@ -404,22 +394,29 @@ app.post('/newsites',function(req,res){
 app.delete("/deleteWeb/:website", function(req,res){
     let website = req.params.website;
     historyReq.deleteByName(website);
-    console.log(historyReq.history);
+    res.sendStatus(200);
+});
+//================Scenario 6===========================
+app.delete("/deleteWebs", function(req,res){
+    let websites = req.body;
+    for(let index in websites)
+        historyReq.deleteByName(websites[index]);
+   // console.log(historyReq.history);
     res.sendStatus(200);
 });
 //===============Scenario 7================
 app.delete("/clear",function(req,res){
     historyReq.clear();
-    console.log(historyReq.history);
+    //console.log(historyReq.history);
     res.sendStatus(200);
 });
-//===============Scenario 10===============
-app.get("/numvisitsinHistory/:website", function (req,res) {
+//===============Scenario 9===============
+app.get("/numVisitsInHistory/:website", function (req,res) {
     let website = req.params.website;
-    res.send(""+historyReq.getVisitCountinHistory(website));
+    res.send(""+historyReq.getVisitCountByNameInHistory(website));
 });
-//===============Scenario 11===============
-app.get("/numvisitsinFirebase/:website", function (req,res) {
+//===============Scenario 10===============
+app.get("/numVisitsInFirebase/:website", function (req,res) {
     let websiteID = requester.formatWebsiteID(req.params.website.toString());
     //console.log(websiteID);
     database.ref("website/"+websiteID).once("value").then(function(snapshot){
@@ -450,9 +447,8 @@ app.get("/numvisitsinFirebase/:website", function (req,res) {
 app.get("/history",function(req,res){
     res.send(historyReq.history);
 });
-
 //===============Scenario 13==============
-app.get("/mostvisitedWebsite",function(req,res){
+app.get("/mostVisitedWebsite",function(req,res){
     var data = Object.keys(historyReq.history).map(function ( key ) { return historyReq.history[key]; });
 
     // console.log(data.reduce((max, p) => p.visitCount > max ? p.visitCount : max, data[0].visitCount)); // returns the max visit count
@@ -461,6 +457,7 @@ app.get("/mostvisitedWebsite",function(req,res){
 
     res.send(maxVisit.url);
 });
+
 
 /*
 app.put("/scores",function(req,res){
