@@ -92,9 +92,58 @@ class WOTRequester{
                 return requester.formatResponse(json,website);
             });
     }
+    scoreWebsite(website){
+        requester = this;
+        let webName = requester.getHostName(website);
+        let websiteID = requester.formatWebsiteID(website);
+        return database.ref("website/"+websiteID).once("value").then(function(snapshot){
+            if(snapshot.exists() && (queriesPerDay > MAXQUERYPERDAY || Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC)){
+                let update = snapshot.val();
+                update.visits++;
+                update.lastModified  = Date.now();
+                database.ref("website/"+websiteID).update(update);
+                return update;
+            }
+            else{
+                if(queriesPerDay < MAXQUERYPERDAY) {
+                    while(queriesPerSec >= MAXQUERYPERSEC)
+                        queriesPerSec = queriesPerSec;
+                    //if (queriesPerSec < MAXQUERYPERSEC) {
+                        queriesPerSec++;
+                        queriesPerDay++;
+                        requester.sendRequest(webName).then((score)=>{
+                            database.ref("website/"+websiteID).set(score);
+                            return score;
+                        });
+                    //}
+                }
+                else
+                    return null;//res.sendStatus(429); //User has sent too many requests in a given amount of time
+            }
+        });
+    }
     //NOTE: 1 = stopped because reached daily request count
     //NOTE: 0 = completed normally
     //NOTE: -1 = Ran into error
+    scoreWebsites(websites){
+        return requester.sendManyWebsites(websites,{},0).then(function(response){
+            let status = response.status;
+            let resp = response.res;
+            if(status != -1){
+                for(let i in resp){
+                    let webID = requester.formatWebsiteID(i);
+                    database.ref("website/"+webID).once("value").then(function(snapshot){
+                        if(snapshot.exists())
+                            database.ref("website/"+webID).update(resp[i]);
+                        else
+                            database.ref("website/"+webID).set(resp[i]);
+                    });
+                }
+                return resp;
+            }
+            return null;
+        });
+    }
     sendManyWebsites(history,res,index){
         let keysToFormat = Object.keys(history);
         let requester = this;
@@ -112,22 +161,28 @@ class WOTRequester{
                     websites += i +"/";
                 }
                 websites = websites.substring(0,websites.length-1);
-                return fetch(requester.requestTemplate1+websites+requester.requestTemplate2+requester.key)
-                    .then(function(res){
-                        return res.json();
-                    }).then(function(json){
-                        for(let i of webKeys){
-                            let val = requester.formatResponse(json,i);
-                            if(history[i].lastVisitTime != undefined)
-                                val.lastVisitTime =  history[i].lastVisitTime;
-                            val.visits = history[i].visitCount;
-                            //res.push({i:val});
-                            res[i] = val;
-                        }
-                        queriesPerSec++;
-                        queriesPerDay++;
-                        return requester.sendManyWebsites(history,res,index);
-                    });
+                if(queriesPerDay < MAXQUERYPERDAY) {
+                    while (queriesPerSec >= MAXQUERYPERSEC)
+                        queriesPerSec = queriesPerSec;
+                    queriesPerSec++;
+                    queriesPerDay++;
+                    return fetch(requester.requestTemplate1 + websites + requester.requestTemplate2 + requester.key)
+                        .then(function (res) {
+                            return res.json();
+                        }).then(function (json) {
+                            for (let i of webKeys) {
+                                let val = requester.formatResponse(json, i);
+                                if (history[i].lastVisitTime != undefined)
+                                    val.lastVisitTime = history[i].lastVisitTime;
+                                val.visits = history[i].visitCount;
+                                //res.push({i:val});
+                                res[i] = val;
+                            }
+                            return requester.sendManyWebsites(history, res, index);
+                        });
+                }
+                else
+                    return res;
             });
         }
         return {"res":res,"status":0};
@@ -318,59 +373,14 @@ app.get("/GET",function(req,res){
 //===============================================================
 //================Scenario 1================
 app.get("/score/:website",function(req,res){
-    let websiteID = requester.formatWebsiteID(req.params.website.toString());
-    //console.log(websiteID);
-    database.ref("website/"+websiteID).once("value").then(function(snapshot){
-        if(snapshot.exists() && (queriesPerDay > MAXQUERYPERDAY || Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC)){
-            let update = snapshot.val();
-            update.visits++;
-            update.lastModified  = Date.now();
-            database.ref("website/"+websiteID).update(update);
-            res.send(update);
-        }
-        else{
-            if(queriesPerDay < MAXQUERYPERDAY) {
-                if (queriesPerSec < MAXQUERYPERSEC) {
-                    queriesPerSec++;
-                    queriesPerDay++;
-                    requester.sendRequest(req.params.website).then((score)=>{
-                        database.ref("website/"+websiteID).set(score);
-                        res.send(score);
-                    });
-                }
-            }
-            else
-                res.sendStatus(429); //User has sent too many requests in a given amount of time
-        }
+    requester.scoreWebsite(req.params.website.toString()).then((resp)=>{
+        res.send(resp);
     });
-
 });
 //=============Scenario 2======================
 app.get("/scores",function(req,res){
-   // console.log("start");
-    requester.sendManyWebsites(historyReq.history,{},0).then(function(response){
-        //console.log("query is done");
-        let status = response.status;
-        let resp = response.res;
-        //console.log(status);
-        //console.log(resp);
-        if(status != -1){
-            for(let i in resp){
-                //console.log(i);
-                let webID = requester.formatWebsiteID(i);
-                //console.log(webID);
-                database.ref("website/"+webID).once("value").then(function(snapshot){
-                    if(snapshot.exists()){//} && resp[i].lastModified > snapshot.val().lastModified) {
-                        database.ref("website/"+webID).update(resp[i]);
-                    }
-                    else{
-                        database.ref("website/"+webID).set(resp[i]);
-                    }
-                });
-            }
-            res.send(resp);
-        }
-        //console.log(res);
+    requester.scoreWebsites(historyReq.history).then((scores)=>{
+        res.send(scores);
     });
 });
 //=============Scenario 3======================
@@ -379,15 +389,11 @@ app.post('/newSite/:website',function (req,res) {
     website.visitCount = 1;
     website.url = req.params.website;
     historyReq.json2Dictionary({0:website});
-    //console.log(historyReq.history);
-    //console.log("==================================================");
     res.sendStatus(200);
 });
 //=============Scenario 4======================
 app.post('/newSites',function(req,res){
     historyReq.json2Dictionary(req.body);
-   // console.log(historyReq.history);
-    //console.log("==================================================");
     res.sendStatus(200);
 });
 //================Scenario 5===========================
@@ -401,13 +407,11 @@ app.delete("/deleteWebs", function(req,res){
     let websites = req.body;
     for(let index in websites)
         historyReq.deleteByName(websites[index]);
-   // console.log(historyReq.history);
     res.sendStatus(200);
 });
 //===============Scenario 7================
 app.delete("/clear",function(req,res){
     historyReq.clear();
-    //console.log(historyReq.history);
     res.sendStatus(200);
 });
 //===============Scenario 9===============
