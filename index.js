@@ -426,10 +426,10 @@ app.get("/numVisitsInFirebase/:website", function (req,res) {
     database.ref("website/"+websiteID).once("value").then(function(snapshot){
         if(snapshot.exists()){
             let post = snapshot.val();
-            console.log("Visits:" + post.visits);
+            //console.log("Visits:" + post.visits);
             res.send(""+post.visits);
         }else{
-            res.send(400);
+            res.send(""+0);
         }
     });
 
@@ -441,11 +441,9 @@ app.get("/history",function(req,res){
 //===============Scenario 13==============
 app.get("/mostVisitedWebsite",function(req,res){
     var data = Object.keys(historyReq.history).map(function ( key ) { return historyReq.history[key]; });
-
     // console.log(data.reduce((max, p) => p.visitCount > max ? p.visitCount : max, data[0].visitCount)); // returns the max visit count
     let maxVisit = data.reduce((prev, current) => (prev.visitCount > current.visitCount) ? prev : current)
-    console.log("maxVisit:" + maxVisit.url);
-
+    //console.log("maxVisit:" + maxVisit.url);
     res.send(maxVisit.url);
 });
 
