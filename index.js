@@ -53,7 +53,7 @@ class WOTRequester{
         if(this.isValidURL(url)){
             let hostName = url;
             hostName = hostName.replace(new RegExp('^((https?:)?\/\/)'),"");
-            hostName = hostName.replace(new RegExp('www\\.'),"");
+            hostName = hostName.replace(new RegExp('^www[0-9]*\\.'),"");
             hostName = hostName.replace(new RegExp('\/.*'),"");
             hostName = hostName.replace(new RegExp(' '),"");
             if(this.isValidURL(hostName))
@@ -110,7 +110,8 @@ class WOTRequester{
         if(score['1'] != null)
             delete score['1'];
         score.lastModified = Date.now().toString();
-        score.visits = 1;
+        if(score.visits == undefined)
+            score.visits = 1;
         return score;
     }
     sendRequest(website){
@@ -212,6 +213,8 @@ class WOTRequester{
                             return res.json();
                         }).then(function (json) {
                             for (let i of webKeys) {
+                                if(history[i].visitCount != undefined)
+                                    json[i].visits = history[i].visitCount;
                                 let val = requester.formatResponse(json, i);
                                 if(val == undefined)
                                     continue;
@@ -298,8 +301,9 @@ class History{
         if(this.isValidURL(url)){
             let hostName = url;
             hostName = hostName.replace(new RegExp('^((https?:)?\/\/)'),"");
-            hostName = hostName.replace(new RegExp('www\\.'),"");
+            hostName = hostName.replace(new RegExp('^www[0-9]*\\.'),"");
             hostName = hostName.replace(new RegExp('\/.*'),"");
+            hostName = hostName.replace(new RegExp(' '),"");
             //console.log(hostName);
             if(this.isValidURL(hostName))
                 return hostName;
