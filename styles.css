@@ -1,0 +1,136 @@
+body
+{
+    padding-left: 11em;
+    font-family: Georgia, "Times New Roman",
+    Times, serif;
+    color: purple;
+    background-color: #d8da3d
+}
+#Button1
+{
+    width: 134px;
+}
+#btnShowMyHistory
+{
+    width: 122px;
+}
+.style1
+{
+    width: 295px;
+}
+#Text1
+{
+    width: 97px;
+}
+#btnScoreSite
+{
+    width: 121px;
+}
+#txtScoreSite
+{
+    width: 279px;
+}
+#TextArea1
+{
+    height: 112px;
+    width: 405px;
+    margin-left: 0px;
+}
+.style2
+{
+    width: 411px;
+}
+
+
+.style1
+{
+    width: 117px;
+}
+#Text1
+{
+    width: 264px;
+.style2
+{
+    width: 277px;
+}
+#btnAdd
+{
+    width: 108px;
+.style2
+{
+    width: 277px;
+}
+#btnAdd
+{
+    width: 108px;
+}
+#Text2
+{
+    width: 261px;
+}
+#txtLoadJson
+{
+    width: 260px;
+}
+#txtAddWebsite
+{
+    width: 258px;
+}
+#TextArea1
+{
+    height: 108px;
+    width: 672px;
+}
+#txtAreaWebsiteList
+{
+    height: 97px;
+    width: 573px;
+}
+#File1
+{
+    width: 450px;
+} }
+#Text2
+{
+    width: 261px;
+}
+#txtLoadJson
+{
+    width: 260px;
+}
+#txtAddWebsite
+{
+    width: 258px;
+}
+#TextArea1
+{
+    height: 108px;
+    width: 672px;
+}
+#txtAreaWebsiteList
+{
+    height: 97px;
+    width: 573px;
+}
+#File1
+{
+    width: 450px;
+}
+
+#txtYourScore
+{
+    height: 80px;
+    width: 415px;
+}
+.style1
+{
+    width: 178px;
+}
+.style2
+{
+    width: 180px;
+}
+.style3
+{
+    width: 203px;
+}
