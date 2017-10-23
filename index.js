@@ -3,7 +3,7 @@ var app = express();
 var fetch = require('node-fetch');
 var bodyParser = require('body-parser');
 const firebase = require("firebase");
-
+app.use(express.static('public'));
 var config = {
     apiKey: "AIzaSyAAN8iqfAOt19rUcDnODW5zByhyftiCVLM",
     authDomain: "swe432-wothistoryanalyzer.firebaseapp.com",
