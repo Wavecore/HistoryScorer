@@ -14,6 +14,10 @@ body
 {
     width: 122px;
 }
+.imageMedium{
+	width: 100px;
+	height: 100px;
+}
 .style1
 {
     width: 295px;
@@ -40,7 +44,12 @@ body
 {
     width: 411px;
 }
-
+input:invalid{
+	color:red;
+}
+input:valid{
+	color:green;
+}
 
 .style1
 {

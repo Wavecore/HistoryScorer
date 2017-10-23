@@ -6,49 +6,45 @@
     <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-
-<table style="width:35%;">
-    <tr>
-        <td class="style1">
-            <input id="btnLoadHistory" type="button" value="Load History" /></td>
-        <td class="style2">
-            <input id="File1" type="file" /></td>
-    </tr>
-    <tr>
-        <td class="style1">
-            <input id="btnAdd" type="button" value="Add" /></td>
-        <td class="style2">
-            <input id="txtAddWebsite" type="text" /></td>
-    </tr>
-</table>
-<p>
-<table style="width: 80%;">
-    <tr>
-        <td class="style3">
-            <select multiple name="D1" style="width: 100%">
-                <option value="Amazon">amazon.com</option>
-                <option value="Youtube">youtube.com</option>
-                <option value="ebay">ebay.com</option>
-                <option value="cnn">cnn.com</option>
-                <option value="nbc">nbc.com</option>
-                <option value="cbs">cbs.com</option>
-            </select>
-        </td>
-        <td class="style4">
-            Youtube<br />
-            URL: youtube.com<br />
-            Visits: 1000<br />
-            Last Time Visit: 10/17/2017</tr>
-    <tr>
-        <td>
-            <input id="btnSscoreMe" type="button" value="Score Me" />
-        </td>
-		<td>
-            <input id="btnDeletMe" type="button" value="Delete" />
-        </td>
-    </tr>
-</table>
-<br />
-</p>
+	<section>
+		<p><label>
+			<input id="btnLoadHistory" type="button" value="Load History" />
+			<input id="File1" type="file" />
+		</label></p>
+		<p><label>
+			<input id="btnAdd" type="button" value="Add" />
+			<input id="txtAddWebsite" type="url" placeholder="Enter site"/>
+		</label></p>
+	</section>
+	<section>
+		<p>
+		<table style="width: 100%;">
+			<tr>
+				<td class="style3">
+					<select multiple name="D1" style="width: 100%">
+						<option value="Amazon">amazon.com</option>
+						<option value="Youtube">youtube.com</option>
+						<option value="ebay">ebay.com</option>
+						<option value="cnn">cnn.com</option>
+						<option value="nbc">nbc.com</option>
+						<option value="cbs">cbs.com</option>
+					</select>
+					<input id="btnSscoreMe" type="button" value="Score Me" />
+				</td>
+				<td class="style4">
+					<div>Youtube</div>
+					<span style="float: left;">URL: </span>
+					<a href="http://youtube.com" target="_blank">youtube.com</a><br/>
+					<span style="float: left;">Visits:</span>
+					<div>1000</div>
+					<span style="float: left;">Last Time Visited:</span>
+					<div>10/17/2017</div>
+					<input id="btnDeletMe" type="button" value="Delete" />
+				</td>
+			</tr>
+		</table>
+		<br />
+		</p>
+	</section>
 </body>
 </html>
