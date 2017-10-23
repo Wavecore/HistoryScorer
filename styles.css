@@ -67,16 +67,16 @@ input:valid{
 {
     width: 117px;
 }
-#Text1
-{
+#Text1 {
     width: 264px;
+}
 .style2
 {
     width: 277px;
 }
-#btnAdd
-{
+#btnAdd {
     width: 108px;
+}
 .style2
 {
     width: 277px;
@@ -110,7 +110,7 @@ input:valid{
 #File1
 {
     width: 450px;
-} }
+}
 #Text2
 {
     width: 261px;
