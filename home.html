@@ -6,54 +6,57 @@
     <link rel="stylesheet" href="styles.css"/>
 </head>
 <body style="width: 90%;">
-<table style="width:100%;">
-    <tr>
-        <td class="style1" >
-            <input id="btnShowMyHistory" type="button" value="Score My History" /><br />
-			<table>
-				<tr>
-						<p><label>
-						<input id="btnScoreSite" type="button" value="Score Site" />
-						<input id="txtScoreSite" type="url" placeholder="Enter site" pattern="apple|orange" /></label></p>
-				</tr>
-				
-			</table>
-			 <textarea id="TextArea1" name="S1" readonly="readonly"></textarea></td>
-		</td>
-        <td class="style3" style="float: left;">
-			<hr></hr>
-			<section>
-				<h3>Top Scoring Site</h3>
-				<img id="GoodIcon" src="Uiconstock-Socialmedia-Amazon.ico" class="imageMedium"><br />
-				<a id="GoodURL" href="http://amazon.com" target="_blank">amazon.com</a><br/>
-				<span style="float: left;">Trustworthiness: </span>
-				<div id="GoodTrustworhtiness"> 94</div>
-				<span style="float: left;">Child Safety: </span>
-				<div id="GoodChildSafety"> 94</div>
-				<span style="float: left;">Visits: </span>
-				<div id="GoodVisits"> 8341252</div>
-				<span style="float: left;">Risks: </span>
-				<div id="GoodRisks"> Online Tracking, Other</div>
-			</section>
-			<hr></hr>
-			<section>
-				<h3>Worse Scoring Site</h3>
-				<img id="BadIcon" src="tpb_logo.png" class="imageMedium"><br />
-				<a id="BadURL" href="http://piratebay.com" target="_blank">piratebay.com</a><br/>
-				<span style="float: left;">Trustworthiness: </span>
-				<div id="BadTrustworthiness"> 22</div>
-				<span style="float: left;">Child Safety: </span>
-				<div id="BadChildSafety"> 13</div>
-				<span style="float: left;">Visits: </span>
-				<div id="BadVisits"> 435932</div>
-				<span style="float: left;">Risks: </span>
-				<div id="BadRisks"> Malware or viruses, Phishing, Scam, Adult content</div>
-			</section>
-			<hr></hr>
-			<a href="http://www.mywot.com"><img src="https://cdn-cf.mywot.net/files/friendbadges/friend_medium.png" alt="Friend of WOT" /></a>
-        </td>
-    </tr>
-    
-</table>
+	<nav>
+	<a id="HomeLink" href="home.html">Home</a><br/>
+	</nav>
+	<hr></hr>
+	<table style="width:100%;">
+		<tr>
+			<td valign="top"  class="style1" >
+				<section>
+					<input id="btnShowMyHistory" type="button" value="Score My History" /><br />
+					<table>
+						<tr>
+								<p><label>
+								<input id="btnScoreSite" type="button" value="Score Site" />
+								<input id="txtScoreSite" type="url" placeholder="Enter site"  pattern="^((https?:)?\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$"/></label></p>
+						</tr>
+						
+					</table>
+					 <textarea id="TextArea1" name="S1" readonly="readonly"></textarea></td>
+				 </section>
+			</td>
+			<td class="style3" style="float: right;">
+				<aside>
+					<div>Top Scoring Site</div>
+					<img id="GoodIcon" src="Uiconstock-Socialmedia-Amazon.ico" class="imageMedium"><br />
+					<a id="GoodURL" href="http://amazon.com" target="_blank">amazon.com</a><br/>
+					<span style="float: left;">Trustworthiness: </span>
+					<div id="GoodTrustworhtiness"> 94</div>
+					<span style="float: left;">Child Safety: </span>
+					<div id="GoodChildSafety"> 94</div>
+					<span style="float: left;">Visits: </span>
+					<div id="GoodVisits"> 8341252</div>
+					<span style="float: left;">Risks: </span>
+					<div id="GoodRisks"> Online Tracking, Other</div>
+				</aside>
+				<aside>
+					<div>Worse Scoring Site</div>
+					<img id="BadIcon" src="tpb_logo.png" class="imageMedium"><br />
+					<a id="BadURL" href="http://piratebay.com" target="_blank">piratebay.com</a><br/>
+					<span style="float: left;">Trustworthiness: </span>
+					<div id="BadTrustworthiness"> 22</div>
+					<span style="float: left;">Child Safety: </span>
+					<div id="BadChildSafety"> 13</div>
+					<span style="float: left;">Visits: </span>
+					<div id="BadVisits"> 435932</div>
+					<span style="float: left;">Risks: </span>
+					<div id="BadRisks"> Malware or viruses, Phishing, Scam, Adult content</div>
+				</aside>
+				<hr></hr>
+				<a href="http://www.mywot.com"><img src="https://cdn-cf.mywot.net/files/friendbadges/friend_medium.png" alt="Friend of WOT" /></a>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>

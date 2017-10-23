@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+	<nav>
+	<a id="HomeLink" href="home.html">Home</a><br/>
+	</nav>
+	<hr></hr>
 	<section>
 		<p><label>
 			<input id="btnLoadHistory" type="button" value="Load History" />
@@ -13,14 +17,14 @@
 		</label></p>
 		<p><label>
 			<input id="btnAdd" type="button" value="Add" />
-			<input id="txtAddWebsite" type="url" placeholder="Enter site"/>
+			<input id="txtAddWebsite" type="url" placeholder="Enter site" pattern="^((https?:)?\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$"/>
 		</label></p>
 	</section>
-	<section>
-		<p>
-		<table style="width: 100%;">
-			<tr>
-				<td class="style3">
+	<p>
+	<table style="width: 100%;">
+		<tr>
+			<td class="style3">
+				<section>	
 					<select multiple name="D1" style="width: 100%">
 						<option value="Amazon">amazon.com</option>
 						<option value="Youtube">youtube.com</option>
@@ -30,8 +34,10 @@
 						<option value="cbs">cbs.com</option>
 					</select>
 					<input id="btnSscoreMe" type="button" value="Score Me" />
-				</td>
-				<td class="style4">
+				</section>
+			</td>
+			<td class="style4">
+				<aside>
 					<div>Youtube</div>
 					<span style="float: left;">URL: </span>
 					<a href="http://youtube.com" target="_blank">youtube.com</a><br/>
@@ -40,11 +46,10 @@
 					<span style="float: left;">Last Time Visited:</span>
 					<div>10/17/2017</div>
 					<input id="btnDeletMe" type="button" value="Delete" />
-				</td>
-			</tr>
-		</table>
-		<br />
-		</p>
-	</section>
+				</aside>
+			</td>
+		</tr>
+	</table>
+	</p>
 </body>
 </html>

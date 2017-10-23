@@ -6,50 +6,59 @@
     <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-
-<table style="width: 100%;">
-    <tr>
-		<span style="float: left;">Browsing Score: </span>
-        <div id="BrowsingScore">80</div>
-    </tr>
-	<tr>
-		<td>
-			<span style="float: left;">Risks:</span>
-		</td>
-		<td>
-			<div id="TotalRisks">Malware or viruses, Potentially illegal, Suspicious, Ads / pop-ups, Online tracking, Opinions, religion, politics</div>
-		</td>
-	</tr>
-</table>
-<table style="width: 100%; height: 70%;">
-	<tr>
-        <td class="style2">
-            <select multiple name="D1" style="width: 100%; height: 150px;">
-                <option value="Malware">malware.com  Score: 20</option>
-                <option value="Youtube">youtube.com  Score: 50</option>
-                <option value="ebay">ebay.com  Score: 70</option>
-                <option value="cnn">cnn.com  Score: 60</option>
-                <option value="nbc">nbc.com  Score: 50</option>
-                <option value="cbs">cbs.com  Score: 40</option>
-            </select>
-        </td>
-        <td class="style2">
-			<div id = "ScoreMeSelectedSite">malware.com</div>
-			<span style="float: left;">URL:</span>
-			<a id = "ScoreMeSelectedURL" href="http://malware.com" target="_blank">malware.com</a><br/>
-			<span style="float: left;">Visits:</span>
-			<div id="ScoreMeSelectedVisits">1000</div>
-			<span style="float: left;">Last Time Visit:</span>
-			<div id="ScoreMeSelectedLastVisited">10/17/2017</div>
-			<span style="float: left;">Trustworthiness:</span>
-			<div id="ScoreMeSelectedTrustworthiness">20</div>
-			<span style="float: left;">Child Safety:</span>
-			<div id="ScoreMeSelectedChildSafety">32</div>
-			<span style="float: left;">Risks:</span>
-			<div id="ScoreMeSelectedRisks">Malware or viruses, Potentially illegal, Suspicious</div>
-		</td>
-    </tr>
-</table>
+	<nav>
+	<a id="HomeLink" href="home.html">Home</a><br/>
+	</nav>
+	<hr></hr>
+	<section>
+		<table style="width: 100%;">
+			<tr>
+				<span style="float: left;">Browsing Score: </span>
+				<div id="BrowsingScore">80</div>
+			</tr>
+			<tr>
+				<td>
+					<span style="float: left;">Risks:</span>
+				</td>
+				<td>
+					<div id="TotalRisks">Malware or viruses, Potentially illegal, Suspicious, Ads / pop-ups, Online tracking, Opinions, religion, politics</div>
+				</td>
+			</tr>
+		</table>
+	</section>
+	<table style="width: 100%; height: 70%;">
+		<tr>
+			<td class="style2">
+				<section>
+					<select multiple name="D1" style="width: 100%; height: 150px;">
+						<option value="Malware">malware.com  Score: 20</option>
+						<option value="Youtube">youtube.com  Score: 50</option>
+						<option value="ebay">ebay.com  Score: 70</option>
+						<option value="cnn">cnn.com  Score: 60</option>
+						<option value="nbc">nbc.com  Score: 50</option>
+						<option value="cbs">cbs.com  Score: 40</option>
+					</select>
+				</section>
+			</td>
+			<td class="style2">
+				<aside>
+					<div id = "ScoreMeSelectedSite">malware.com</div>
+					<span style="float: left;">URL:</span>
+					<a id = "ScoreMeSelectedURL" href="http://malware.com" target="_blank">malware.com</a><br/>
+					<span style="float: left;">Visits:</span>
+					<div id="ScoreMeSelectedVisits">1000</div>
+					<span style="float: left;">Last Time Visit:</span>
+					<div id="ScoreMeSelectedLastVisited">10/17/2017</div>
+					<span style="float: left;">Trustworthiness:</span>
+					<div id="ScoreMeSelectedTrustworthiness">20</div>
+					<span style="float: left;">Child Safety:</span>
+					<div id="ScoreMeSelectedChildSafety">32</div>
+					<span style="float: left;">Risks:</span>
+					<div id="ScoreMeSelectedRisks">Malware or viruses, Potentially illegal, Suspicious</div>
+				</aside>
+			</td>
+		</tr>
+	</table>
 
 </body>
 </html>

@@ -22,6 +22,13 @@ body
 {
     width: 295px;
 }
+aside{
+	border-style: outset;
+	border-color: green;
+}
+aside::first-line{
+	font-weight:bold;
+}
 #Text1
 {
     width: 97px;
