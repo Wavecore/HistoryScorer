@@ -23,20 +23,12 @@ body
 	width:100px;
 	height: 100px;
 }
-.style1
-{
-    width: 295px;
-}
 aside{
 	border-style: outset;
 	border-color: green;
 }
 aside::first-line{
 	font-weight:bold;
-}
-#Text1
-{
-    width: 97px;
 }
 #btnScoreSite
 {
@@ -48,13 +40,10 @@ aside::first-line{
 }
 #TextArea1
 {
+	
+    margin-right: 30px;
     height: 112px;
-    width: 405px;
-    margin-left: 0px;
-}
-.style2
-{
-    width: 411px;
+    width: 100%;
 }
 input:invalid{
 	color:red;
@@ -62,29 +51,12 @@ input:invalid{
 input:valid{
 	color:green;
 }
-
-.style1
-{
-    width: 117px;
-}
 #Text1 {
     width: 264px;
-}
-.style2
-{
-    width: 277px;
 }
 #btnAdd {
     width: 108px;
 }
-.style2
-{
-    width: 277px;
-}
-#btnAdd
-{
-    width: 108px;
-}
 #Text2
 {
     width: 261px;
@@ -97,11 +69,6 @@ input:valid{
 {
     width: 258px;
 }
-#TextArea1
-{
-    height: 108px;
-    width: 672px;
-}
 #txtAreaWebsiteList
 {
     height: 97px;
@@ -111,33 +78,6 @@ input:valid{
 {
     width: 450px;
 }
-#Text2
-{
-    width: 261px;
-}
-#txtLoadJson
-{
-    width: 260px;
-}
-#txtAddWebsite
-{
-    width: 258px;
-}
-#TextArea1
-{
-    height: 108px;
-    width: 672px;
-}
-#txtAreaWebsiteList
-{
-    height: 97px;
-    width: 573px;
-}
-#File1
-{
-    width: 450px;
-}
-
 #txtYourScore
 {
     height: 80px;
