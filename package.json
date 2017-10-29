@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node test.js"
+    "test": "node test.js",
+	"heroku-postbuild": "cd historyscorer && npm install --only=dev && npm install && npm run build"
+
   },
   "author": "Vincent Liu & Fatih Andican",
   "license": "ISC",
