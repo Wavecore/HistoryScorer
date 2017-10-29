@@ -191,7 +191,7 @@ class WOTRequester{
             return {"res":res,"status":1};
         if(keysToFormat.length > index){
             //console.log(keysToFormat);
-            return this.addToRequest(keysToFormat,res,[],index).then(function(resp){//,webKeys,index){
+            return this.addToRequest(history,keysToFormat,res,[],index).then(function(resp){//,webKeys,index){
                 //console.log(resp);
                 let res = resp.res;
                 //for(let index in res)
@@ -233,7 +233,7 @@ class WOTRequester{
          //   console.log("here 3 "+res[index].url+"    "+res[index].visits);
         return {"res":res,"status":0};
     }
-    addToRequest(historyKeys,res,webKeys,index){//historyKeys = input keys,res = website information, webKeys = output keys, index = index of websites added so far
+    addToRequest(history,historyKeys,res,webKeys,index){//historyKeys = input keys,res = website information, webKeys = output keys, index = index of websites added so far
         let requester = this;
        // console.log(historyKeys);
         if(webKeys.length < 100 && index < historyKeys.length){
@@ -251,19 +251,19 @@ class WOTRequester{
                 if(snapshot.exists() && Date.now()-snapshot.val().lastModified< THIRTYMININMILISEC) {
                     var entry = snapshot.val();
                     if(entry.visits != undefined)
-                        entry.visits += historyReq.history[website].visitCount;
-                    if(entry.lastVisitTime != undefined && historyReq.history[website].lastVisitTime != undefined &&
-                        (new Date(entry.lastVisitTime) < new Date(historyReq.history[website].lastVisitTime)))
-                        entry.lastVisitTime = historyReq.history[website].lastVisitTime
-                    else if(entry.lastVisitTime == undefined && historyReq.history[website].lastVisitTime != undefined)
-                        entry.lastVisitTime = historyReq.history[website].lastVisitTime
+                        entry.visits += history[website].visitCount;
+                    if(entry.lastVisitTime != undefined && history[website].lastVisitTime != undefined &&
+                        (new Date(entry.lastVisitTime) < new Date(history[website].lastVisitTime)))
+                        entry.lastVisitTime = history[website].lastVisitTime
+                    else if(entry.lastVisitTime == undefined && history[website].lastVisitTime != undefined)
+                        entry.lastVisitTime = history[website].lastVisitTime
                     res[website] = entry;
                     console.log(entry.url +"    "+entry.visits);
-                    return requester.addToRequest(historyKeys,res,webKeys,index);
+                    return requester.addToRequest(history,historyKeys,res,webKeys,index);
                 }
                 else{
                     webKeys.push(website);
-                    return requester.addToRequest(historyKeys,res,webKeys,index);
+                    return requester.addToRequest(history,historyKeys,res,webKeys,index);
                 }
             });
         }
@@ -421,7 +421,7 @@ app.get("/GET",function(req,res){
 });
 //===============================================================
 //================Scenario 1================
-app.get("/score/:website",function(req,res){
+app.put("/score/:website",function(req,res){
     requester.scoreWebsite(req.params.website.toString()).then((resp)=>{
         if(resp == undefined)
             res.send("Website does not exist in database");
@@ -429,10 +429,11 @@ app.get("/score/:website",function(req,res){
     });
 });
 //=============Scenario 2======================
-app.get("/scores",function(req,res){
-    requester.scoreWebsites(historyReq.history).then((scores)=>{
+app.put("/scores",function(req,res){
+    let history = req.body;
+    requester.scoreWebsites(history).then((scores)=>{
         for(let index in scores)
-            scores[index].visits = historyReq.history[index].visitCount;
+            scores[index].visits = history[index].visitCount;
         res.send(scores);
     });
 });
@@ -545,16 +546,39 @@ app.get("/mostVisitedWebsite",function(req,res){
 });
 //===============Scenario 14==============
 app.get("/mostVisitedGoodWebsite",function(req,res){
-    let history = historyReq.history;
-    requester.scoreWebsites(history).then((scores)=>{
-        let keys = Object.keys(scores);
-        let maxVisit = keys.reduce((accumulator,current)=>{
-            if(scores[current].trustworthiness.reputation > 60 && (accumulator == null || (scores[current].visits > scores[accumulator].visits)))
-                return current;
-            else
-                return accumulator;
-                },null);
-        res.send(maxVisit);
+    database.ref("website").once("value").then(function(snapshot) {
+        if(snapshot.exists()){
+            let data = snapshot.val();
+            let keys = Object.keys(data);
+            let minVisit = keys.reduce((accumulator,current)=>{
+                if(data[current].trustworthiness.reputation >= 60 && (accumulator == null || (data[current].visits > data[accumulator].visits)))
+                    return current;
+                else
+                    return accumulator;
+            },null);
+            console.log(minVisit);
+            res.send(data[minVisit]);
+        }
+        else
+            res.send(null);
+    });
+});
+app.get("/mostVisitedBadWebsite",function(req,res){
+    database.ref("website").once("value").then(function(snapshot) {
+        if(snapshot.exists()){
+            let data = snapshot.val();
+            let keys = Object.keys(data);
+            let minVisit = keys.reduce((accumulator,current)=>{
+                if(data[current].trustworthiness.reputation < 60 && (accumulator == null || (data[current].visits > data[accumulator].visits)))
+                    return current;
+                else
+                    return accumulator;
+            },null);
+            console.log(minVisit);
+            res.send(data[minVisit]);
+        }
+        else
+            res.send(null);
     });
 });
 
