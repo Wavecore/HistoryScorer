@@ -1,8 +1,10 @@
 var express = require('express');
 var app = express();
+const path = require('path');
 var fetch = require('node-fetch');
 var bodyParser = require('body-parser');
 const firebase = require("firebase");
+app.use(express.static(path.join(__dirname, 'historyscorer/build')));
 //app.use(express.static('public'));
 var config = {
     apiKey: "AIzaSyAAN8iqfAOt19rUcDnODW5zByhyftiCVLM",
