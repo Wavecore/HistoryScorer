@@ -5,6 +5,19 @@ var fetch = require('node-fetch');
 var bodyParser = require('body-parser');
 const firebase = require("firebase");
 app.use(express.static(path.join(__dirname, 'historyscorer/build')));
+app.use(function (req, res, next) {
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    // Pass to next layer of middleware
+    next();
+});
 //app.use(express.static('public'));
 var config = {
     apiKey: "AIzaSyAAN8iqfAOt19rUcDnODW5zByhyftiCVLM",
@@ -516,6 +529,7 @@ app.get("/numVisitsInFirebase/:website", function (req,res) {
 });
 //===============Scenario 11===============
 app.get("/risks",function (req,res){
+
    let history = historyReq.history;
    let risks = [];
    requester.scoreWebsites(history).then((scores)=>{
@@ -558,7 +572,7 @@ app.get("/mostVisitedGoodWebsite",function(req,res){
                 else
                     return accumulator;
             },null);
-            console.log(minVisit);
+            //console.log(minVisit);
             res.send(data[minVisit]);
         }
         else
@@ -576,12 +590,27 @@ app.get("/mostVisitedBadWebsite",function(req,res){
                 else
                     return accumulator;
             },null);
-            console.log(minVisit);
+            //console.log(minVisit);
             res.send(data[minVisit]);
         }
         else
             res.send(null);
     });
+});
+app.get("/convertRisks",function(req,res){
+    let query = req.query.risks.split(",");
+    //console.log(query);
+    let risks = [];
+    for(let risk of query){
+       //console.log(risk);
+        if(risk == 404 || risk == 501)
+            continue;
+        let riskDetail = requester.convertCategories(risk);
+        if(riskDetail != undefined && risks.indexOf(riskDetail) == -1){
+            risks.push(riskDetail);
+        }
+    }
+    res.send({risks:risks});
 });
 
 
