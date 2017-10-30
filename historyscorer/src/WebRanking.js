@@ -18,7 +18,7 @@ class Ranking extends React.Component{
         }
     }
     componentDidMount(){
-        fetch("http://localhost:5000/"+this.state.query,{
+        fetch("https://infinite-peak-34901.herokuapp.com/"+this.state.query,{
             headers: {'Accept': 'application/json','Content-Type': 'application/json'},
             method: "GET",}).then((res)=>{return res.json()}).then((res)=>{
             var value = res;
@@ -26,7 +26,7 @@ class Ranking extends React.Component{
             let riskString;
             for(let r of risks)
                 riskString = r+',';
-            fetch("http://localhost:5000/convertRisks/?risks="+riskString,{
+            fetch("https://infinite-peak-34901.herokuapp.com/convertRisks/?risks="+riskString,{
                 headers: {'Accept': 'application/json','Content-Type': 'application/json'},
                 method: "GET"}).then((res)=>{return res.json()}).then((res)=>{
                 let riskString = "";
