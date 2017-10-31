@@ -8,6 +8,7 @@ class HomeView extends Component {
         this.move = props.move;
     }
     render() {
+        //Should Render
        return (
            <div>
                <button onClick={()=>{this.move("history",{})}}>Score My History</button>
