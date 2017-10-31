@@ -2,7 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c9188f06-d92c-4f80-8967-b6737f89eae2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/.gitignore" afterPath="$PROJECT_DIR$/historyscorer/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/historyscorer/public/scoreMe.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/historyscorer/src/components/BrowsingScore.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/historyscorer/src/components/HistoryView.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/historyscorer/src/components/HomeView.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/historyscorer/src/components/ScoreView.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/historyscorer/src/components/styles.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/historyscorer/src/scoreMe.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/historyscorer/src/components/WebRanking.css" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/public/index.html" afterPath="$PROJECT_DIR$/historyscorer/public/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/App.test.js" afterPath="$PROJECT_DIR$/historyscorer/src/App.test.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/index.js" afterPath="$PROJECT_DIR$/historyscorer/src/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.js" afterPath="$PROJECT_DIR$/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tester.js" afterPath="$PROJECT_DIR$/tester.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/historyscorer/src/App.css" afterPath="$PROJECT_DIR$/historyscorer/src/components/App.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/historyscorer/src/App.js" afterPath="$PROJECT_DIR$/historyscorer/src/components/App.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/historyscorer/src/Nav.js" afterPath="$PROJECT_DIR$/historyscorer/src/components/Nav.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/historyscorer/src/WebRanking.js" afterPath="$PROJECT_DIR$/historyscorer/src/components/WebRanking.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -41,7 +58,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/historyscorer/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
@@ -51,12 +68,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/historyscorer/.gitignore">
+      <file leaf-file-name="HomeView.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/historyscorer/src/components/HomeView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="14" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
-              <folding />
+            <state relative-caret-position="153">
+              <caret line="9" column="14" lean-forward="true" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -192,7 +211,6 @@
         <option value="$PROJECT_DIR$/historyscorer/src/components/BrowsingScore.js" />
         <option value="$PROJECT_DIR$/historyscorer/src/components/ScoreView.js" />
         <option value="$PROJECT_DIR$/historyscorer/src/components/App.js" />
-        <option value="$PROJECT_DIR$/historyscorer/.gitignore" />
       </list>
     </option>
   </component>
@@ -345,18 +363,17 @@
       <workItem from="1508251794970" duration="1902000" />
       <workItem from="1508791542023" duration="3687000" />
       <workItem from="1508980902399" duration="80000" />
-      <workItem from="1509293770839" duration="43921000" />
+      <workItem from="1509293770839" duration="43785000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="125599000" />
+    <option name="totallyTimeSpent" value="125463000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16927083" sideWeight="0.4952381" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16927083" sideWeight="0.4952381" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2503962" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -388,6 +405,16 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/tester.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="40" lean-forward="false" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
+          <folding>
+            <marker date="1509383128968" expanded="true" signature="3486:3492" ph="{&quot;method&quot;: &quot;POST&quot;...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -790,14 +817,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/historyscorer/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="14" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
           <folding />
         </state>
       </provider>
