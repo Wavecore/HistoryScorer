@@ -31,7 +31,6 @@ aside{
     border-style: outset;
     border-color: green;
     max-width: 300px;
-    min-width: fit-content;
     padding-left: 0.2em;
     padding-right: 0.2em;
     padding-bottom: 0.2em;
@@ -49,12 +48,15 @@ input:valid{
 }
 select{
     min-width: 300px;
+    min-height: 200px;
 }
-body
-{
+body {
     padding-left: 1em;
     padding-right: 1em;
     font-family: Georgia, "Times New Roman",
     Times, serif;
     background-color: #d8da3d
+}
+section {
+    display: block;
 }

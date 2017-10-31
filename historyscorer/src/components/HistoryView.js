@@ -5,10 +5,10 @@ class HistoryView extends Component {
     constructor(props){
         super(props);
         this.move = props.move;
-        this.state = {};
-        this.state.selected = null;
-        this.state.input = props.value;
-        this.state.history = {};
+        this.state = {selected:null,input:props.value,history:{}};
+       // this.state.selected = null;
+      //  this.state.input = props.value;
+       // this.state.history = {};
     }
     renderSelectedHistory(){
         if(this.state.selected == null) return(<span></span>);
@@ -28,9 +28,9 @@ class HistoryView extends Component {
     getHostName(url) {
         if(this.isValidURL(url)){
             let hostName = url;
-            hostName = hostName.replace(new RegExp('^((https?:)?\/\/)'),"");
+            hostName = hostName.replace(new RegExp('^((https?:)?//)'),"");
             hostName = hostName.replace(new RegExp('^www[0-9]*\\.'),"");
-            hostName = hostName.replace(new RegExp('\/.*'),"");
+            hostName = hostName.replace(new RegExp('/.*'),"");
             hostName = hostName.replace(new RegExp(' '),"");
             //console.log(hostName);
             if(this.isValidURL(hostName))
@@ -131,7 +131,7 @@ class HistoryView extends Component {
                 {Object.keys(this.state.history).map((key)=>{
                     return(<option key={key} value={key}> {key}</option>)
                 })}
-            </select>
+            </select><br/>
             <button onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
             {this.renderSelectedHistory()}
 

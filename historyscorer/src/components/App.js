@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
 import './App.css';
 import Nav from './Nav';
 import HomeView from './HomeView';
@@ -19,17 +18,17 @@ class App extends Component {
     }
     render() {
        // console.log("renderView: "+this.state.view);
-        if(this.state.view == "home")
+        if(this.state.view === "home")
             return (<div>
                         <Nav move={(view,value)=>{this.movePage(view,value)}}/>
                         <HomeView move={(view,value)=>{this.movePage(view,value)}}/>
                     </div>);
-        else if(this.state.view == "history")
+        else if(this.state.view === "history")
             return (<div>
                         <Nav move={(view,value)=>{this.movePage(view,value)}}/>
                         <HistoryView move={(view,value)=>{this.movePage(view,value)}}/>
                     </div>);
-        else if(this.state.view == "score")
+        else if(this.state.view === "score")
             return (<div>
                         <Nav move={(view,value)=>{this.movePage(view,value)}}/>
                         <ScoreView value= {this.state.data} move={(view,value)=>{this.movePage(view,value)}}/>

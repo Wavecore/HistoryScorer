@@ -4,18 +4,23 @@ class ScoreView extends Component {
     constructor(props){
         super(props);
         this.move = props.move;
-        this.state = {};
-        this.state.selected = null;
-        this.state.selectedRisk= "";
-        this.state.input = props.value;
-        this.state.output = {browsingScore:0,risks:"",scores:{}};
+        this.state = {
+            selected:null,
+            selectedRisk:"",
+            input:props.value,
+            output: {browsingScore:0,risks:"",scores:{}}
+        };
+     //   this.state.selected = null;
+     //   this.state.selectedRisk= "";
+      //  this.state.input = props.value;
+      //  this.state.output = {browsingScore:0,risks:"",scores:{}};
     }
     renderBrowsingScore(){
         let riskString = "";
         for(let i of this.state.output.risks)
-            riskString += i+",";
+            riskString += i+", ";
         if(this.state.output.risks.length!= 0)
-            riskString = riskString.substring(0,riskString.length-1);
+            riskString = riskString.substring(0,riskString.length-2);
         else
             riskString = "None Found";
         return (<div>
@@ -65,9 +70,9 @@ class ScoreView extends Component {
             //console.log(res);
             let riskString = "";
             for(let i of res.risks)
-                riskString += i+",";
+                riskString += i+", ";
             if(res.risks.length!= 0)
-                riskString = riskString.substring(0,riskString.length-1);
+                riskString = riskString.substring(0,riskString.length-2);
             else
                 riskString = "None Found";
             this.setState({selected:x.value,selectedRisk:riskString});

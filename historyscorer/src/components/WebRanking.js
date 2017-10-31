@@ -30,9 +30,9 @@ class Ranking extends React.Component{
                 method: "GET"}).then((res)=>{return res.json()}).then((res)=>{
                 let riskString = "";
                 for(let i of res.risks)
-                    riskString += i+",";
+                    riskString += i+", ";
                 if(res.risks.length!= 0)
-                    riskString = riskString.substring(0,riskString.length-1);
+                    riskString = riskString.substring(0,riskString.length-2);
                 else
                     riskString = "None Found";
                 value.risks = riskString;
