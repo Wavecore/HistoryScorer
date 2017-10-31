@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
-import WebRanking from './WebRanking';
+import "./App.css";
 
 class HistoryView extends Component {
     constructor(props){
@@ -63,14 +62,56 @@ class HistoryView extends Component {
         var selector = document.getElementById("historySelection");
         let copy = JSON.parse(JSON.stringify(this.state.history));
         delete copy[selector.value];
-        this.setState({history:copy});
+        this.setState({history:copy,selected:null});
+    }
+    json2Dictionary(json){
+        let histView = this;
+        let history = JSON.parse(JSON.stringify(this.state.history));
+        let keys = Object.keys(json);
+        let historyEntry;
+        keys.forEach(function (key) {
+            historyEntry = json[key];
+            delete historyEntry.id;
+            let webkey =  histView.getHostName(historyEntry.url);
+            // console.log(webkey);
+            if(webkey != null){
+                if(history[webkey] == undefined){
+                    history[webkey] = historyEntry;
+                    history[webkey].url=webkey;
+                }
+                else
+                {
+                    let entry = history[webkey];
+                    if(entry.lastVisitTime != undefined && historyEntry.lastVisitTime != undefined &&
+                        (new Date(entry.lastVisitTime) > new Date(historyEntry.lastVisitTime)))
+                        entry.lastVisitTime = historyEntry.lastVisitTime;
+                    entry.visitCount = entry.visitCount+historyEntry.visitCount;
+                    history[webkey] = entry;
+                }
+            }
+        });
+        this.setState({history:history});
     }
     loadJSON(){
-
+        var file = document.getElementById("fileInput").files[0];
+        var histView = this;
+        if(file){
+            var reader = new FileReader();
+            reader.readAsText(file,"UTF-8");
+            reader.onload = function(evt){
+                histView.json2Dictionary(JSON.parse(evt.target.result));
+               //evt.target.result);
+                file.value = "";
+            }
+            reader.onerror = function(evt){
+                console.log("ERROR: Reading file");
+            }
+        }
     }
     addWebsite(){
         var newWebsite = document.getElementById("txtAddWebsite");
         let hostName = this.getHostName(newWebsite.value);
+        newWebsite.value = "";
         if(hostName != null){
             let copy = JSON.parse(JSON.stringify(this.state.history));
             if(copy[hostName] != null)
