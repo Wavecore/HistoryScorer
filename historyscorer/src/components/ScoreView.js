@@ -24,7 +24,7 @@ class ScoreView extends Component {
         </div>);
     }
     renderSelectedScore(){
-        if(this.state.selected == null) return(<td></td>);
+        if(this.state.selected == null) return(<span></span>);
         let score = this.state.output.scores[this.state.selected];
        return(
            <aside >
@@ -32,7 +32,7 @@ class ScoreView extends Component {
                 <span>URL:</span>
                 <a href={"http://"+score.url} target="_blank">{this.state.selected}</a><br/>
                 <div>Visits: {score.visits}</div>
-                <div>Last Time Visit: {score.lastVisitTime}</div>
+               {score.lastVisitTime != null &&<div>Last Time Visit: {score.lastVisitTime}</div>}
                 <div>Trustworthiness: {score.trustworthiness.reputation}</div>
                 <div>Child Safety: {score.childSafety.reputation}</div>
                 <div>Risks: {this.state.selectedRisk}</div>

@@ -448,8 +448,11 @@ app.put("/scores",function(req,res){
     let history = req.body;
     if(history =={}) res.send({value:null});
     requester.scoreWebsites(history).then((scores)=>{
-        for(let index in scores)
+        for(let index in scores) {
             scores[index].visits = history[index].visitCount;
+            if(history[index].lastVisitTime == null)
+                delete scores[index].lastVisitTime;
+        }
         let risks = [];
         for(let index in scores){
             let categories = scores[index].categories;

@@ -12,15 +12,15 @@ class HistoryView extends Component {
         this.state.history = {};
     }
     renderSelectedHistory(){
-        if(this.state.selected == null) return(<td></td>);
+        if(this.state.selected == null) return(<span></span>);
         let historyEntry = this.state.history[this.state.selected];
         return(
             <aside>
                 <div>{this.state.selected}</div>
                 <span>URL:</span>
                 <a href={"http://"+historyEntry.url} target="_blank">{this.state.selected}</a><br/>
-                <div>Visits: {historyEntry.visits}</div>
-                {()=>{if(historyEntry.lastVisitTime != null){return(<div>Last Time Visit: {historyEntry.lastVisitTime}</div>);}}}
+                <div>Visits: {historyEntry.visitCount}</div>
+                {historyEntry.lastVisitTime != null &&<div>Last Time Visit: {historyEntry.lastVisitTime}</div>}
                 <button onClick={()=>{this.deleteSelected()}}>
                     Delete
                 </button>
@@ -74,9 +74,9 @@ class HistoryView extends Component {
         if(hostName != null){
             let copy = JSON.parse(JSON.stringify(this.state.history));
             if(copy[hostName] != null)
-                copy[hostName].visits++;
+                copy[hostName].visitCount++;
             else
-                copy[hostName] = {url:hostName,visits:1};
+                copy[hostName] = {url:hostName,visitCount:1};
             this.setState({history:copy});
         }
     }
