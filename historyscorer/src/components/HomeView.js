@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../logo.svg';
 import WebRanking from './WebRanking';
+import ScoreSite from './scoreSite';
 
 class HomeView extends Component {
     constructor(props){
@@ -12,7 +13,9 @@ class HomeView extends Component {
        return (
            <div>
                <button onClick={()=>{this.move("history",{})}}>Score My History</button>
+               <ScoreSite/>
                <WebRanking/>
+
            </div>);
     }
 }

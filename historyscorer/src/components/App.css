@@ -40,3 +40,6 @@ input:invalid{
 input:valid{
     color:green;
 }
+section {
+    display: block;
+}
