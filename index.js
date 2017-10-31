@@ -446,10 +446,48 @@ app.put("/score/:website",function(req,res){
 //=============Scenario 2======================
 app.put("/scores",function(req,res){
     let history = req.body;
+    if(history =={}) res.send({value:null});
     requester.scoreWebsites(history).then((scores)=>{
-        for(let index in scores)
+        for(let index in scores) {
             scores[index].visits = history[index].visitCount;
-        res.send(scores);
+            if(history[index].lastVisitTime == null)
+                delete scores[index].lastVisitTime;
+        }
+        let risks = [];
+        for(let index in scores){
+            let categories = scores[index].categories;
+            for(let risk in categories){
+                if(risk == 404 || risk == 501)
+                    continue;
+                let riskDetail = requester.convertCategories(risk);
+                if(riskDetail != undefined && risks.indexOf(riskDetail) == -1){
+                    risks.push(riskDetail);
+                }
+            }
+        }
+        let goodBrowsingScore = 0;
+        let badBrowsingScore = 0;
+        let goodTotal = 0;
+        let badTotal = 0;
+        for(let index in scores){
+            if(scores[index].trustworthiness.reputation >= 60){
+                goodBrowsingScore += scores[index].trustworthiness.reputation * scores[index].visits;
+                goodTotal += scores[index].visits;
+            }
+            else{
+                badBrowsingScore += scores[index].trustworthiness.reputation * scores[index].visits;
+                badTotal += scores[index].visits;
+            }
+        }
+        let multiplier = Math.pow((goodTotal/(goodTotal+badTotal)),3);
+        let badScore = 0;
+        let goodScore = 0;
+        if(goodTotal != 0)
+            goodScore = (goodBrowsingScore/goodTotal)*multiplier
+        if(badTotal != 0)
+            badScore = (badBrowsingScore/badTotal)*(1-multiplier);
+        let finalBrowsingScore = goodScore + badScore;
+        res.send({scores:scores,risks:risks,browsingScore:finalBrowsingScore});
     });
 });
 //=============Scenario 3======================

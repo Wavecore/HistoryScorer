@@ -1,0 +1,105 @@
+body
+{
+    padding-left: 11em;
+    font-family: Georgia, "Times New Roman",
+    Times, serif;
+    color: purple;
+    background-color: #d8da3d
+}
+#Button1
+{
+    width: 134px;
+}
+#btnShowMyHistory
+{
+    width: 122px;
+}
+span{
+    float: left;
+}
+.image{
+	width: 50px;
+	height: 50px;
+	transition: width 1s, height 1s;
+}
+.image:hover{
+	width:100px;
+	height: 100px;
+}
+aside{
+	border-style: outset;
+	border-color: green;
+}
+aside::first-line{
+	font-weight:bold;
+}
+#btnScoreSite
+{
+    width: 121px;
+}
+#txtScoreSite
+{
+    width: 279px;
+}
+#TextArea1
+{
+	
+    margin-right: 10px;
+    min-height: 100px;
+    height: fit-content;
+    width: 95%;
+    min-width: 279px;
+}
+input:invalid{
+	color:red;
+}
+input:valid{
+	color:green;
+}
+#Text1 {
+    width: 264px;
+}
+#btnAdd {
+    width: 108px;
+}
+#Text2
+{
+    width: 261px;
+}
+#txtLoadJson
+{
+    width: 260px;
+}
+#txtAddWebsite
+{
+    width: 258px;
+}
+#txtAreaWebsiteList
+{
+    height: 97px;
+    width: 573px;
+}
+#File1
+{
+    width: 450px;
+}
+#txtYourScore
+{
+    height: 80px;
+    width: 415px;
+}
+.style1
+{
+    width: 178px;
+}
+table{
+    width: fit-content;
+}
+.style2
+{
+    width: 180px;
+}
+.style3
+{
+    width: 203px;
+}
