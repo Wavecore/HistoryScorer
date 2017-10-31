@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c9188f06-d92c-4f80-8967-b6737f89eae2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/components/HistoryView.js" afterPath="$PROJECT_DIR$/historyscorer/src/components/HistoryView.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/components/ScoreView.js" afterPath="$PROJECT_DIR$/historyscorer/src/components/ScoreView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.js" afterPath="$PROJECT_DIR$/index.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="361">
-              <caret line="453" column="51" lean-forward="false" selection-start-line="453" selection-start-column="51" selection-end-line="453" selection-end-column="51" />
+              <caret line="453" column="51" lean-forward="true" selection-start-line="453" selection-start-column="51" selection-end-line="453" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -94,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScoreView.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ScoreView.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/historyscorer/src/components/ScoreView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="33" column="49" lean-forward="true" selection-start-line="33" selection-start-column="49" selection-end-line="34" selection-end-column="96" />
+            <state relative-caret-position="408">
+              <caret line="48" column="34" lean-forward="false" selection-start-line="48" selection-start-column="34" selection-end-line="48" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -107,8 +104,8 @@
       <file leaf-file-name="HistoryView.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/historyscorer/src/components/HistoryView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="111" lean-forward="false" selection-start-line="22" selection-start-column="111" selection-end-line="22" selection-end-column="111" />
+            <state relative-caret-position="-170">
+              <caret line="14" column="62" lean-forward="true" selection-start-line="14" selection-start-column="62" selection-end-line="14" selection-end-column="62" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -190,9 +187,9 @@
         <option value="$PROJECT_DIR$/historyscorer/src/components/WebRanking.js" />
         <option value="$PROJECT_DIR$/historyscorer/src/components/App.css" />
         <option value="$PROJECT_DIR$/historyscorer/src/components/App.js" />
-        <option value="$PROJECT_DIR$/historyscorer/src/components/ScoreView.js" />
         <option value="$PROJECT_DIR$/historyscorer/src/components/HistoryView.js" />
         <option value="$PROJECT_DIR$/index.js" />
+        <option value="$PROJECT_DIR$/historyscorer/src/components/ScoreView.js" />
       </list>
     </option>
   </component>
@@ -351,7 +348,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="135038000" />
+    <option name="totallyTimeSpent" value="135494000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -775,28 +772,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/historyscorer/src/components/ScoreView.js">
+    <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="33" column="49" lean-forward="true" selection-start-line="33" selection-start-column="49" selection-end-line="34" selection-end-column="96" />
+        <state relative-caret-position="361">
+          <caret line="453" column="51" lean-forward="true" selection-start-line="453" selection-start-column="51" selection-end-line="453" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/historyscorer/src/components/HistoryView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="111" lean-forward="false" selection-start-line="22" selection-start-column="111" selection-end-line="22" selection-end-column="111" />
+        <state relative-caret-position="-170">
+          <caret line="14" column="62" lean-forward="true" selection-start-line="14" selection-start-column="62" selection-end-line="14" selection-end-column="62" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
+    <entry file="file://$PROJECT_DIR$/historyscorer/src/components/ScoreView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="453" column="51" lean-forward="false" selection-start-line="453" selection-start-column="51" selection-end-line="453" selection-end-column="51" />
+        <state relative-caret-position="408">
+          <caret line="48" column="34" lean-forward="false" selection-start-line="48" selection-start-column="34" selection-end-line="48" selection-end-column="34" />
           <folding />
         </state>
       </provider>
