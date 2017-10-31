@@ -91,7 +91,7 @@ class HistoryView extends Component {
                     return(<option key={key} value={key}> {key}</option>)
                 })}
             </select>
-            <button onClick={()=>{this.move("score",this.state.history)}}>Score My History</button>
+            <button onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
             {this.renderSelectedHistory()}
 
         </div>);

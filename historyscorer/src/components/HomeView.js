@@ -5,10 +5,14 @@ import WebRanking from './WebRanking';
 class HomeView extends Component {
     constructor(props){
         super(props);
-        this.state = {view:"home",data:{}};
+        this.move = props.move;
     }
     render() {
-       return (<WebRanking/>);
+       return (
+           <div>
+               <button onClick={()=>{this.move("history",{})}}>Score My History</button>
+               <WebRanking/>
+           </div>);
     }
 }
 
