@@ -477,7 +477,13 @@ app.put("/scores",function(req,res){
             }
         }
         let multiplier = Math.pow((goodTotal/(goodTotal+badTotal)),3);
-        let finalBrowsingScore = (goodBrowsingScore/goodTotal)*multiplier + (badBrowsingScore/badTotal)*(1-multiplier);
+        let badScore = 0;
+        let goodScore = 0;
+        if(goodTotal != 0)
+            goodScore = (goodBrowsingScore/goodTotal)*multiplier
+        if(badTotal != 0)
+            badScore = (badBrowsingScore/badTotal)*(1-multiplier);
+        let finalBrowsingScore = goodScore + badScore;
         res.send({scores:scores,risks:risks,browsingScore:finalBrowsingScore});
     });
 });
