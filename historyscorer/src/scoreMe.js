@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Nav from './components/Nav';
 import WebRanking from './components/WebRanking';
-import App from "./components/App";
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('app'));
+
+ReactDOM.render(<Nav />, document.getElementById('nav'));
+ReactDOM.render(<WebRanking />, document.getElementById('user_score'));
 registerServiceWorker();

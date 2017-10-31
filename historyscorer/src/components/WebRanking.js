@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './WebRanking.css';
+import './aside.css';
 
 fetch = require('node-fetch');
 class Ranking extends React.Component{
@@ -34,6 +34,8 @@ class Ranking extends React.Component{
                     riskString += i+",";
                 if(res.risks.length!= 0)
                     riskString = riskString.substring(0,riskString.length-1);
+                else
+                    riskString = "None Found";
                 value.risks = riskString;
                 this.setState({value:value});
                 //
