@@ -60,3 +60,6 @@ body {
 section {
     display: block;
 }
+label {
+    color: green;
+}

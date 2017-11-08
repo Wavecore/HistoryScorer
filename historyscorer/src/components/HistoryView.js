@@ -122,9 +122,12 @@ class HistoryView extends Component {
         }
     }
     render() {
-        return (<div>
+        return (
+            <div>
+                <div><label htmlFor="loadFile" className="control-label">Choose a file then click 'Load history' to see the browsing history</label></div>
             <input type="button" value="Load History" onClick={()=>{this.loadJSON()}}/>
             <input id="fileInput" type="file" accept=".json" /><br/>
+                <div><label htmlFor="loadFile" className="control-label">Additional websites can be added to list by entering site name and clicking 'Add'</label></div>
             <input type="button" value="Add" onClick={()=>{this.addWebsite()}}/>
             <input id="txtAddWebsite" type="text" placeholder="Enter site" /><br/>
             <select multiple id="historySelection" onClick={()=>{this.getSelected()}}>
@@ -132,6 +135,7 @@ class HistoryView extends Component {
                     return(<option key={key} value={key}> {key}</option>)
                 })}
             </select><br/>
+                <div><label htmlFor="loadFile" className="control-label">After selecting site name from list click 'Score History'</label></div>
             <button onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
             {this.renderSelectedHistory()}
 
