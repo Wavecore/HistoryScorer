@@ -125,16 +125,6 @@ class HistoryView extends Component {
             this.setState({history:copy});
         }
     }
-    checkOptions(){
-        //var selector = document.getElementById("historySelection");
-        //
-        {this.checkOptions()}
-        if(this.state.history.size>0){
-            this.setState({selectionavailablemsg:"You can click on a site to see more information"});
-        }else{
-            this.setState({selectionavailablemsg:null});
-        }
-    }
     render() {
         return (
             <div>
@@ -144,12 +134,13 @@ class HistoryView extends Component {
                 <div><label htmlFor="loadFile" className="control-label">Additional websites can be added to list by entering site name and clicking 'Add'</label></div>
             <input type="button" value="Add" onClick={()=>{this.addWebsite()}}/>
             <input id="txtAddWebsite" type="text" placeholder="Enter site" /><br/>
-                <div>{this.state.selectionavailablemsg}</div>
+                {Object.keys(this.state.history).length>0 &&<div>You can click on a site to see more information</div>}
                 <select multiple id="historySelection" onClick={()=>{this.getSelected()}}>
                 {Object.keys(this.state.history).map((key)=>{
                     return(<option key={key} value={key}> {key}</option>)
                 })}
             </select><br/>
+
                 <div><label htmlFor="loadFile" className="control-label">Once your history has been loaded, click Score History to score your history</label></div>
             <button onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
             {this.renderSelectedHistory()}
