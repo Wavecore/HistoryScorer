@@ -62,8 +62,6 @@ class App extends Component {
        return( <Router>
             <div>
                 <Link to="/">Home</Link>
-                <Link to="/history">History</Link>
-                <Link to="/score">Score</Link>
                 <a href="http://www.mywot.com"><img src="https://cdn-cf.mywot.net/files/friendbadges/friend_medium.png" alt="Friend of WOT" /></a>
 
                 <hr/>
