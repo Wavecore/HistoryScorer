@@ -6,9 +6,8 @@ import HistoryView from './HistoryView';
 import ScoreView from './ScoreView';
 
 import {
-    MemoryRouter as Router,
-    Route,Redirect,
-    Link
+    BrowserRouter as Router,
+    Route,Redirect, Switch,Link
 } from 'react-router-dom'
 
 class App extends Component {
@@ -65,16 +64,17 @@ class App extends Component {
                 <Link to="/">Home</Link>
                 <Link to="/history">History</Link>
                 <Link to="/score">Score</Link>
-
+                <a href="http://www.mywot.com"><img src="https://cdn-cf.mywot.net/files/friendbadges/friend_medium.png" alt="Friend of WOT" /></a>
 
                 <hr/>
-
-                <Route exact path="/" component={this.home}/>
-                <Route exact path="/home" component={this.home}/>
-                <Route path="/history" component={this.history}/>
-                <Route path="/score" component={this.score}/>
-                <Route path="/**" component={this.notFound}/>
-                <Redirect push to={"/"+this.state.view}/>
+                <Switch>
+                    <Route exact path="/" component={this.home}/>
+                    <Route exact path="/home" component={this.home}/>
+                    <Route path="/history" component={this.history}/>
+                    <Route path="/score" component={this.score}/>
+                    <Route  component={this.notFound}/>
+                </Switch>
+                <Redirect exact to={"/"+this.state.view}/>
             </div>
         </Router>);
   }

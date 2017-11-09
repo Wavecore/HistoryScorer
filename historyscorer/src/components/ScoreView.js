@@ -58,7 +58,9 @@ class ScoreView extends Component {
     }
     getSelected(){
         var x = document.getElementById("resultSelection");
-        let risks = Object.keys(this.state.output.scores[x.value].categories);
+        let risks = [];
+        if(this.state.output.scores[x.value].categories != null)
+            risks = Object.keys(this.state.output.scores[x.value].categories);
         //console.log(risks);
         let riskString = "";
         for(let r of risks)
