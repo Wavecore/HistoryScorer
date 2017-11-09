@@ -135,7 +135,7 @@ class HistoryView extends Component {
                     return(<option key={key} value={key}> {key}</option>)
                 })}
             </select><br/>
-                <div><label htmlFor="loadFile" className="control-label">After selecting site name from list click 'Score History'</label></div>
+                <div><label htmlFor="loadFile" className="control-label">Once your history has been loaded, click Score History to score your history</label></div>
             <button onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
             {this.renderSelectedHistory()}
 

@@ -102,7 +102,7 @@ class ScoreSite extends React.Component{
                     <button onClick={(e) => this.handleClick()}>Score Site</button>
                 </div>
                 <div className="Info">
-                   <div><label htmlFor="loadFile" className="control-label">Enter site below to review score. Example: Amazon.com</label></div>
+                   <div><label htmlFor="loadFile" className="control-label">Enter site below to review score. (Example: Amazon.com)</label></div>
                 </div>
                 <div className="siteInput">
                     <input id="txtScoreSite" type="text" placeholder="Enter site"/>
