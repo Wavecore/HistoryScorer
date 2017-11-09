@@ -5,7 +5,7 @@ class HistoryView extends Component {
     constructor(props){
         super(props);
         this.move = props.move;
-        this.state = {selectionavailablemsg:null,selected:null,input:props.value,history:{}};
+        this.state = {selected:null,input:props.value,history:{}};
        // this.state.selected = null;
       //  this.state.input = props.value;
        // this.state.history = {};
@@ -134,7 +134,7 @@ class HistoryView extends Component {
                 <div><label htmlFor="loadFile" className="control-label">Additional websites can be added to list by entering site name and clicking 'Add'</label></div>
             <input type="button" value="Add" onClick={()=>{this.addWebsite()}}/>
             <input id="txtAddWebsite" type="text" placeholder="Enter site" /><br/>
-                {Object.keys(this.state.history).length>0 &&<div>You can click on a site to see more information</div>}
+                {Object.keys(this.state.history).length>0 &&<div><label htmlFor="loadFile" className="control-label">You can click on a site to see more information</label></div>}
                 <select multiple id="historySelection" onClick={()=>{this.getSelected()}}>
                 {Object.keys(this.state.history).map((key)=>{
                     return(<option key={key} value={key}> {key}</option>)
