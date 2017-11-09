@@ -11,10 +11,15 @@ class HomeView extends Component {
         //Should Render
        return (
            <div>
-               <button onClick={()=>{this.move("history",{})}}>Score My History</button>
-               <ScoreSite/>
-               <WebRanking/>
-
+               <div class="row align-items-start">
+                   <div class="col-sm-8">
+                       <button onClick={()=>{this.move("history",{})}}>Score My History</button>
+                       <ScoreSite/>
+                   </div>
+                   <div class="col-sm">
+                       <WebRanking/>
+                   </div>
+               </div>
            </div>);
     }
 }

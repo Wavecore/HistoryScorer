@@ -135,15 +135,21 @@ class HistoryView extends Component {
             <input type="button" value="Add" onClick={()=>{this.addWebsite()}}/>
             <input id="txtAddWebsite" type="text" placeholder="Enter site" /><br/>
                 {Object.keys(this.state.history).length>0 &&<div><label htmlFor="loadFile" className="control-label">You can click on a site to see more information</label></div>}
-                <select multiple id="historySelection" onClick={()=>{this.getSelected()}}>
-                {Object.keys(this.state.history).map((key)=>{
-                    return(<option key={key} value={key}> {key}</option>)
-                })}
-            </select><br/>
 
-                <div><label htmlFor="loadFile" className="control-label">Once your history has been loaded, click Score History to score your history</label></div>
-            <button onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
-            {this.renderSelectedHistory()}
+                <div class="row align-items-start">
+                    <div class="col-sm-8">
+                        <select multiple id="historySelection" onClick={()=>{this.getSelected()}}>
+                            {Object.keys(this.state.history).map((key)=>{
+                                return(<option key={key} value={key}> {key}</option>)
+                            })}
+                        </select><br/>
+                        <div><label htmlFor="loadFile" className="control-label">Once your history has been loaded, click Score History to score your history</label></div>
+                        <button onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
+                    </div>
+                    <div class="col-sm">
+                        {this.renderSelectedHistory()}
+                    </div>
+                </div>
 
         </div>
         );

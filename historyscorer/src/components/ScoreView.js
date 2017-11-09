@@ -84,15 +84,20 @@ class ScoreView extends Component {
     render() {
         return (<div>
             {this.renderBrowsingScore()}
-            <select multiple id="resultSelection" onClick={()=>{this.getSelected()}}>
-                {Object.keys(this.state.output.scores).map((key)=>{
-                    return(
-                        <option key={key} value={key}>
-                            {key}  Score: {this.state.output.scores[key].trustworthiness.reputation}
-                            </option>)})}
-            </select>
-            {this.renderSelectedScore()}
-
+            <div class="row align-items-start">
+                <div class="col-sm-8">
+                    <select multiple id="resultSelection" onClick={()=>{this.getSelected()}}>
+                        {Object.keys(this.state.output.scores).map((key)=>{
+                            return(
+                                <option key={key} value={key}>
+                                    {key}  Score: {this.state.output.scores[key].trustworthiness.reputation}
+                                </option>)})}
+                    </select>
+                </div>
+                <div class="col-sm">
+                    {this.renderSelectedScore()}
+                </div>
+            </div>
         </div>);
     }
 }
