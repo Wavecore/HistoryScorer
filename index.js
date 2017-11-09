@@ -386,7 +386,9 @@ class History{
 }
 var requester = new WOTRequester("6a61298751dcc88830b430677620aadde46cd213");
 var historyReq = new History();
+/*
 let tempHistory = {'chrome.google.com':{ id: 11111,
+
         visitCount: 2,
         lastVisitTime: '2017-09-28T15:58:49.045Z',
         title: 'Chrome Web Store - Extensions',
@@ -406,6 +408,7 @@ let tempHistory = {'chrome.google.com':{ id: 11111,
         lastVisitTime: '2017-09-28T15:52:33.483Z',
         title: 'SWE 432',
         url: 'piazza.com' }};
+        */
 //============================================================================================
 //console.log("chrome.google.com  :"+historyReq.isValidURL("chrome.google.com"));  //True
 //console.log("search.norton.com  :"+historyReq.isValidURL("search.norton.com"));  //True
