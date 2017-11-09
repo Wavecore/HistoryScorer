@@ -5,7 +5,7 @@ class HistoryView extends Component {
     constructor(props){
         super(props);
         this.move = props.move;
-        this.state = {selected:null,input:props.value,history:{}};
+        this.state = {selectionavailablemsg:null,selected:null,input:props.value,history:{}};
        // this.state.selected = null;
       //  this.state.input = props.value;
        // this.state.history = {};
@@ -13,6 +13,7 @@ class HistoryView extends Component {
     renderSelectedHistory(){
         if(this.state.selected == null) return(<span></span>);
         let historyEntry = this.state.history[this.state.selected];
+
         return(
             <aside>
                 <div>{this.state.selected}</div>
@@ -102,11 +103,14 @@ class HistoryView extends Component {
                 histView.json2Dictionary(JSON.parse(evt.target.result));
                //evt.target.result);
                 file.value = "";
+
             }
             reader.onerror = function(evt){
                 console.log("ERROR: Reading file");
             }
+
         }
+
     }
     addWebsite(){
         var newWebsite = document.getElementById("txtAddWebsite");
@@ -121,6 +125,16 @@ class HistoryView extends Component {
             this.setState({history:copy});
         }
     }
+    checkOptions(){
+        //var selector = document.getElementById("historySelection");
+        //
+        {this.checkOptions()}
+        if(this.state.history.size>0){
+            this.setState({selectionavailablemsg:"You can click on a site to see more information"});
+        }else{
+            this.setState({selectionavailablemsg:null});
+        }
+    }
     render() {
         return (
             <div>
@@ -130,7 +144,8 @@ class HistoryView extends Component {
                 <div><label htmlFor="loadFile" className="control-label">Additional websites can be added to list by entering site name and clicking 'Add'</label></div>
             <input type="button" value="Add" onClick={()=>{this.addWebsite()}}/>
             <input id="txtAddWebsite" type="text" placeholder="Enter site" /><br/>
-            <select multiple id="historySelection" onClick={()=>{this.getSelected()}}>
+                <div>{this.state.selectionavailablemsg}</div>
+                <select multiple id="historySelection" onClick={()=>{this.getSelected()}}>
                 {Object.keys(this.state.history).map((key)=>{
                     return(<option key={key} value={key}> {key}</option>)
                 })}
@@ -139,7 +154,10 @@ class HistoryView extends Component {
             <button onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
             {this.renderSelectedHistory()}
 
-        </div>);
+        </div>
+        );
+
+
     }
 }
 
