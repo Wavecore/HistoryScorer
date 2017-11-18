@@ -5,14 +5,19 @@ fetch = require('node-fetch');
 class ScoreSite extends React.Component{
     constructor(props){
         super(props);
-        this.state={scoreResult:null};
+        this.state={invalidMsg:"",scoreResult:null};
     }
     getScore(input){
+        let errMsg =input  + "'s information could not be found.";
+
         fetch("https://infinite-peak-34901.herokuapp.com/score/" + input,{
             headers: {'Accept': 'application/json','Content-Type': 'application/json'},
-            method: "PUT",}).then((res)=>{return res.json()}).then((res)=>{
+            method: "PUT",}).then((res)=>{this.setState({invalidMsg:errMsg}); return res.json()}).then((res)=>{
             var value = res;
-            //this.setState({results:JSON.stringify(value)});
+            //errMsg="ggg";
+            this.setState({invalidMsg:null});
+            //this.setState({invalidMsg:JSON.stringify(value)});
+
             let risks = Object.keys(res.categories);
             let riskString="";
 
@@ -87,11 +92,16 @@ class ScoreSite extends React.Component{
     handleClick(){
         let webSite= document.getElementById('txtScoreSite');
         let validWeb = this.getHostName(webSite.value);
+        let invalidSiteString = "";
 
         if(validWeb!=null) {
+            this.setState({invalidMsg:null});
+            this.setState({scoreResult:null});
             this.getScore(validWeb);
         }else{
-            this.setState({scoreResult:null});
+            //this.setState({scoreResult:null});
+            invalidSiteString = "You have entered an invalid website. " + webSite.value;
+            this.setState({invalidMsg:invalidSiteString});
         }
         webSite.value="";
     }
@@ -107,6 +117,7 @@ class ScoreSite extends React.Component{
                 <div className="siteInput">
                     <input id="txtScoreSite" type="text" placeholder="Enter site"/>
                 </div>
+                <div id="invalidMsg">{this.state.invalidMsg}</div>
 
                 { this.renderScore()}
 

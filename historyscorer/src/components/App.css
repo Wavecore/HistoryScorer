@@ -63,3 +63,10 @@ section {
 label {
     color: green;
 }
+#invalidMsg
+{
+    color: red;
+}
+#processMsg{
+    color: firebrick;
+}
