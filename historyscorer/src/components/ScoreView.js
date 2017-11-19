@@ -90,7 +90,7 @@ class ScoreView extends Component {
                         {Object.keys(this.state.output.scores).map((key)=>{
                             return(
                                 <option key={key} value={key}>
-                                    {key}  Score: {this.state.output.scores[key].trustworthiness.reputation}
+                                    {key}  Score: {this.state.output.scores[key].trustworthiness.reputation}<span class="badge">Score: {this.state.output.scores[key].trustworthiness.reputation}</span>
                                 </option>)})}
                     </select>
                 </div>

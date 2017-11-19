@@ -55,11 +55,22 @@ body {
     padding-right: 1em;
     font-family: Georgia, "Times New Roman",
     Times, serif;
-    background-color: #d8da3d
+    background: #342fc2; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#342fc2, #2ef0ed); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#342fc2, #2ef0ed); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#342fc2, #2ef0ed); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(deepskyblue, whitesmoke); /* Standard syntax */
+    height: 100%;
+}
+html{
+    height:100%;
 }
 section {
     display: block;
 }
 label {
     color: green;
+}
+button{
+    margin-bottom: 10px;
 }

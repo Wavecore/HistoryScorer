@@ -11,12 +11,12 @@ class HomeView extends Component {
         //Should Render
        return (
            <div>
-               <div class="row align-items-start">
-                   <div class="col-sm-8">
+               <div className="row align-items-start">
+                   <div className="col-sm-8">
                        <button onClick={()=>{this.move("history",{})}}>Score My History</button>
                        <ScoreSite/>
                    </div>
-                   <div class="col-sm">
+                   <div className="col-sm">
                        <WebRanking/>
                    </div>
                </div>

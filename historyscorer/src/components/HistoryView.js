@@ -76,14 +76,14 @@ class HistoryView extends Component {
             let webkey =  histView.getHostName(historyEntry.url);
             // console.log(webkey);
             if(webkey != null){
-                if(history[webkey] == undefined){
+                if(history[webkey] === undefined){
                     history[webkey] = historyEntry;
                     history[webkey].url=webkey;
                 }
                 else
                 {
                     let entry = history[webkey];
-                    if(entry.lastVisitTime != undefined && historyEntry.lastVisitTime != undefined &&
+                    if(entry.lastVisitTime !== undefined && historyEntry.lastVisitTime !== undefined &&
                         (new Date(entry.lastVisitTime) > new Date(historyEntry.lastVisitTime)))
                         entry.lastVisitTime = historyEntry.lastVisitTime;
                     entry.visitCount = entry.visitCount+historyEntry.visitCount;
@@ -136,8 +136,8 @@ class HistoryView extends Component {
             <input id="txtAddWebsite" type="text" placeholder="Enter site" /><br/>
                 {Object.keys(this.state.history).length>0 &&<div><label htmlFor="loadFile" className="control-label">You can click on a site to see more information</label></div>}
 
-                <div class="row align-items-start">
-                    <div class="col-sm-8">
+                <div className="row align-items-start">
+                    <div className="col-sm-8">
                         <select multiple id="historySelection" onClick={()=>{this.getSelected()}}>
                             {Object.keys(this.state.history).map((key)=>{
                                 return(<option key={key} value={key}> {key}</option>)
@@ -146,7 +146,7 @@ class HistoryView extends Component {
                         <div><label htmlFor="loadFile" className="control-label">Once your history has been loaded, click Score History to score your history</label></div>
                         <button onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
                     </div>
-                    <div class="col-sm">
+                    <div className="col-sm">
                         {this.renderSelectedHistory()}
                     </div>
                 </div>

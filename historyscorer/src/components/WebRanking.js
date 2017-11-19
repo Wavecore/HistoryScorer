@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './App.css';
 
 fetch = require('node-fetch');
 class Ranking extends React.Component{
