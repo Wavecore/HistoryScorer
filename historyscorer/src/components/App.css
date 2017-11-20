@@ -74,3 +74,10 @@ label {
 button{
     margin-bottom: 10px;
 }
+#invalidMsg
+{
+    color: red;
+}
+#processMsg{
+    color: firebrick;
+}

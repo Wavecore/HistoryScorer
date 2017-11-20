@@ -28,6 +28,7 @@ class App extends Component {
         };
     }
     movePage(nextView,value){
+        console.log(nextView);
         this.setState({view:nextView,data:value})
 
     }
@@ -65,13 +66,12 @@ class App extends Component {
                         <div className="navbar-header">
                             <Link class="navbar-brand" to="/">History Scorer</Link>
                         </div>
-                        <ul class="nav navbar-nav">
+                        <ul className="nav navbar-nav">
                             <li><Link to="/">Home</Link></li>
                         </ul>
-                        <ul class="nav navbar-nav ml-auto">
+                        <ul className="nav navbar-nav ml-auto">
                             <li> <a  href="http://www.mywot.com"><img src="https://cdn-cf.mywot.net/files/friendbadges/friend_medium.png" alt="Friend of WOT" /></a></li>
                         </ul>
-
                     </div>
                 </nav>
                 <Switch>

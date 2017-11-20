@@ -5,7 +5,7 @@ class HistoryView extends Component {
     constructor(props){
         super(props);
         this.move = props.move;
-        this.state = {selected:null,input:props.value,history:{}};
+        this.state = {processMsg:null,selected:null,input:props.value,history:{}};
        // this.state.selected = null;
       //  this.state.input = props.value;
        // this.state.history = {};
@@ -96,16 +96,35 @@ class HistoryView extends Component {
     loadJSON(){
         var file = document.getElementById("fileInput").files[0];
         var histView = this;
+
+        var loadHstryBtn = document.getElementById("LoadHistory");
+       // var scoreBtn = document.getElementById("scoreHistory");
+        //var chsFileBtn = document.getElementById("chsFile");
+        //let processMsgString = "Please wait your history is being loaded.";
+        //this.setState({processMsg:processMsgString});
+
         if(file){
+            loadHstryBtn.disabled=true;
+            //chsFileBtn.disabled=true;
+
             var reader = new FileReader();
             reader.readAsText(file,"UTF-8");
             reader.onload = function(evt){
                 histView.json2Dictionary(JSON.parse(evt.target.result));
                //evt.target.result);
                 file.value = "";
+                scoreBtn.disabled=false;
+                loadHstryBtn.disabled=false;
+                let processMsgString = "Pleased.";
+                //this.setState({processMsg:processMsgString});
+                //chsFileBtn.disabled=false;
 
             }
             reader.onerror = function(evt){
+                scoreBtn.disabled=false;
+                loadHstryBtn.disabled=false;
+                //this.setState({processMsg:null});
+                //chsFileBtn.disabled=false;
                 console.log("ERROR: Reading file");
             }
 
@@ -128,9 +147,10 @@ class HistoryView extends Component {
     render() {
         return (
             <div>
-                <div><label htmlFor="loadFile" className="control-label">Choose a file then click 'Load history' to see the browsing history</label></div>
-            <input type="button" value="Load History" onClick={()=>{this.loadJSON()}}/>
+                <div><label id="chsFile" htmlFor="loadFile" className="control-label">Choose a file then click 'Load history' to see the browsing history</label></div>
+            <input id="LoadHistory" type="button" value="Load History" onClick={()=>{this.loadJSON()}}/>
             <input id="fileInput" type="file" accept=".json" /><br/>
+            <div id="processMsg">{this.state.processMsg}</div>
                 <div><label htmlFor="loadFile" className="control-label">Additional websites can be added to list by entering site name and clicking 'Add'</label></div>
             <input type="button" value="Add" onClick={()=>{this.addWebsite()}}/>
             <input id="txtAddWebsite" type="text" placeholder="Enter site" /><br/>
@@ -144,12 +164,16 @@ class HistoryView extends Component {
                             })}
                         </select><br/>
                         <div><label htmlFor="loadFile" className="control-label">Once your history has been loaded, click Score History to score your history</label></div>
-                        <button onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
+                        <button id="scoreHistory" disabled="disabled" onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
                     </div>
                     <div className="col-sm">
                         {this.renderSelectedHistory()}
                     </div>
                 </div>
+
+
+            {this.renderSelectedHistory()}
+
 
         </div>
         );
