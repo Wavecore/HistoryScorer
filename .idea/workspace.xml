@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c9188f06-d92c-4f80-8967-b6737f89eae2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/components/HistoryView.js" afterPath="$PROJECT_DIR$/historyscorer/src/components/HistoryView.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/components/App.css" afterPath="$PROJECT_DIR$/historyscorer/src/components/App.css" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -108,7 +108,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HistoryView.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HistoryView.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/historyscorer/src/components/HistoryView.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="297">
@@ -118,11 +118,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="App.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="App.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/historyscorer/src/components/App.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1394">
-              <caret line="82" column="1" lean-forward="false" selection-start-line="82" selection-start-column="1" selection-end-line="82" selection-end-column="1" />
+            <state relative-caret-position="481">
+              <caret line="76" column="16" lean-forward="false" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -192,11 +192,11 @@
         <option value="$PROJECT_DIR$/historyscorer/src/components/styles.css" />
         <option value="$PROJECT_DIR$/historyscorer/public/index.html" />
         <option value="$PROJECT_DIR$/historyscorer/src/components/WebRanking.js" />
-        <option value="$PROJECT_DIR$/historyscorer/src/components/App.css" />
         <option value="$PROJECT_DIR$/historyscorer/src/components/ScoreView.js" />
         <option value="$PROJECT_DIR$/historyscorer/src/components/HomeView.js" />
         <option value="$PROJECT_DIR$/historyscorer/src/components/App.js" />
         <option value="$PROJECT_DIR$/historyscorer/src/components/HistoryView.js" />
+        <option value="$PROJECT_DIR$/historyscorer/src/components/App.css" />
       </list>
     </option>
   </component>
@@ -354,12 +354,12 @@
       <workItem from="1510846732496" duration="3669000" />
       <workItem from="1511044546092" duration="5332000" />
       <workItem from="1511192198088" duration="1285000" />
-      <workItem from="1511195463697" duration="1335000" />
+      <workItem from="1511195463697" duration="1517000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="167352000" />
+    <option name="totallyTimeSpent" value="167534000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -686,14 +686,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/historyscorer/src/components/App.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1394">
-          <caret line="82" column="1" lean-forward="false" selection-start-line="82" selection-start-column="1" selection-end-line="82" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/historyscorer/src/components/ScoreView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1632">
@@ -745,6 +737,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
           <caret line="100" column="9" lean-forward="false" selection-start-line="100" selection-start-column="9" selection-end-line="100" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/historyscorer/src/components/App.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="76" column="16" lean-forward="false" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
           <folding />
         </state>
       </provider>
