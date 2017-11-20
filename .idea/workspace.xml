@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c9188f06-d92c-4f80-8967-b6737f89eae2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/components/App.css" afterPath="$PROJECT_DIR$/historyscorer/src/components/App.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/components/App.js" afterPath="$PROJECT_DIR$/historyscorer/src/components/App.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/components/HistoryView.js" afterPath="$PROJECT_DIR$/historyscorer/src/components/HistoryView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/components/ScoreView.js" afterPath="$PROJECT_DIR$/historyscorer/src/components/ScoreView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/historyscorer/src/components/scoreSite.js" afterPath="$PROJECT_DIR$/historyscorer/src/components/scoreSite.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -116,8 +111,8 @@
       <file leaf-file-name="HistoryView.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/historyscorer/src/components/HistoryView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-587">
-              <caret line="123" column="40" lean-forward="true" selection-start-line="123" selection-start-column="40" selection-end-line="123" selection-end-column="40" />
+            <state relative-caret-position="297">
+              <caret line="100" column="7" lean-forward="false" selection-start-line="100" selection-start-column="7" selection-end-line="100" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -359,12 +354,12 @@
       <workItem from="1510846732496" duration="3669000" />
       <workItem from="1511044546092" duration="5332000" />
       <workItem from="1511192198088" duration="1285000" />
-      <workItem from="1511195463697" duration="37000" />
+      <workItem from="1511195463697" duration="187000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="166054000" />
+    <option name="totallyTimeSpent" value="166204000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -747,8 +742,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/historyscorer/src/components/HistoryView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-587">
-          <caret line="123" column="40" lean-forward="true" selection-start-line="123" selection-start-column="40" selection-end-line="123" selection-end-column="40" />
+        <state relative-caret-position="297">
+          <caret line="100" column="7" lean-forward="false" selection-start-line="100" selection-start-column="7" selection-end-line="100" selection-end-column="7" />
           <folding />
         </state>
       </provider>

@@ -98,7 +98,7 @@ class HistoryView extends Component {
         var histView = this;
 
         var loadHstryBtn = document.getElementById("LoadHistory");
-       // var scoreBtn = document.getElementById("scoreHistory");
+        var scoreBtn = document.getElementById("scoreHistory");
         //var chsFileBtn = document.getElementById("chsFile");
         //let processMsgString = "Please wait your history is being loaded.";
         //this.setState({processMsg:processMsgString});
