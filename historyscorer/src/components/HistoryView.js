@@ -98,7 +98,7 @@ class HistoryView extends Component {
         var histView = this;
 
         var loadHstryBtn = document.getElementById("LoadHistory");
-        var scoreBtn = document.getElementById("scoreHistory");
+       //var scoreBtn = document.getElementById("scoreHistory");
         //var chsFileBtn = document.getElementById("chsFile");
         //let processMsgString = "Please wait your history is being loaded.";
         //this.setState({processMsg:processMsgString});
@@ -113,7 +113,7 @@ class HistoryView extends Component {
                 histView.json2Dictionary(JSON.parse(evt.target.result));
                //evt.target.result);
                 file.value = "";
-                scoreBtn.disabled=false;
+               // scoreBtn.disabled=false;
                 loadHstryBtn.disabled=false;
                 let processMsgString = "Pleased.";
                 //this.setState({processMsg:processMsgString});
@@ -121,7 +121,7 @@ class HistoryView extends Component {
 
             }
             reader.onerror = function(evt){
-                scoreBtn.disabled=false;
+                //scoreBtn.disabled=false;
                 loadHstryBtn.disabled=false;
                 //this.setState({processMsg:null});
                 //chsFileBtn.disabled=false;
@@ -164,7 +164,7 @@ class HistoryView extends Component {
                             })}
                         </select><br/>
                         <div><label htmlFor="loadFile" className="control-label">Once your history has been loaded, click Score History to score your history</label></div>
-                        <button id="scoreHistory" disabled="disabled" onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
+                        <button id="scoreHistory" disabled={Object.keys(this.state.history).length<=0 && "disabled"} onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
                     </div>
                     <div className="col-sm">
                         {this.renderSelectedHistory()}

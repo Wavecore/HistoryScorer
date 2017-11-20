@@ -112,7 +112,7 @@
         <entry file="file://$PROJECT_DIR$/historyscorer/src/components/HistoryView.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="297">
-              <caret line="100" column="7" lean-forward="false" selection-start-line="100" selection-start-column="7" selection-end-line="100" selection-end-column="7" />
+              <caret line="100" column="9" lean-forward="false" selection-start-line="100" selection-start-column="9" selection-end-line="100" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -354,12 +354,12 @@
       <workItem from="1510846732496" duration="3669000" />
       <workItem from="1511044546092" duration="5332000" />
       <workItem from="1511192198088" duration="1285000" />
-      <workItem from="1511195463697" duration="187000" />
+      <workItem from="1511195463697" duration="1335000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="166204000" />
+    <option name="totallyTimeSpent" value="167352000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -642,6 +642,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1751">
           <caret line="104" column="55" lean-forward="false" selection-start-line="104" selection-start-column="55" selection-end-line="104" selection-end-column="55" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -743,7 +744,7 @@
     <entry file="file://$PROJECT_DIR$/historyscorer/src/components/HistoryView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
-          <caret line="100" column="7" lean-forward="false" selection-start-line="100" selection-start-column="7" selection-end-line="100" selection-end-column="7" />
+          <caret line="100" column="9" lean-forward="false" selection-start-line="100" selection-start-column="9" selection-end-line="100" selection-end-column="9" />
           <folding />
         </state>
       </provider>
