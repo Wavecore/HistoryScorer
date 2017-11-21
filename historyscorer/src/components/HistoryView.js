@@ -104,6 +104,7 @@ class HistoryView extends Component {
         //this.setState({processMsg:processMsgString});
 
         if(file){
+            //loadHstryBtn.disabled;
             loadHstryBtn.disabled=true;
             //chsFileBtn.disabled=true;
 
@@ -114,6 +115,7 @@ class HistoryView extends Component {
                //evt.target.result);
                 file.value = "";
                // scoreBtn.disabled=false;
+                //loadHstryBtn.class="btn btn-primary active";
                 loadHstryBtn.disabled=false;
                 let processMsgString = "Pleased.";
                 //this.setState({processMsg:processMsgString});
@@ -148,7 +150,7 @@ class HistoryView extends Component {
         return (
             <div>
                 <div><label id="chsFile" htmlFor="loadFile" className="control-label">Choose a file then click 'Load history' to see the browsing history</label></div>
-            <input id="LoadHistory" type="button" value="Load History" onClick={()=>{this.loadJSON()}}/>
+            <input id="LoadHistory" class="btn btn-primary" type="button" value="Load History" onClick={()=>{this.loadJSON()}}/>
             <input id="fileInput" type="file" accept=".json" /><br/>
             <div id="processMsg">{this.state.processMsg}</div>
                 <div><label htmlFor="loadFile" className="control-label">Additional websites can be added to list by entering site name and clicking 'Add'</label></div>
