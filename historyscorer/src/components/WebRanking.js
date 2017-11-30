@@ -52,6 +52,8 @@ class Ranking extends React.Component{
                 <div>Visits: {this.state.value.visits}</div>
                 <div>Risks: {this.state.value.risks}</div>
             </aside>
+
+
         );
     }
 }
@@ -60,8 +62,9 @@ class WebRanking extends Component {
 
         return (
             <div>
-                {this.renderRanking("Good")}
-                {this.renderRanking("Bad")}
+                <div id="topSite">{this.renderRanking("Good")}</div>
+                <div>&nbsp;</div>
+                <div id="worseSite">{this.renderRanking("Bad")}</div>
             </div>
         );
     }
