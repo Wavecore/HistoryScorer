@@ -47,7 +47,7 @@ input:valid{
     color:green;
 }
 select{
-    min-width: 300px;
+    min-width: 100%;
     min-height: 200px;
 }
 body {
@@ -70,6 +70,8 @@ section {
 }
 label {
     color: green;
+    font-size: 12px;
+    font-style: normal;
 }
 button{
     margin-bottom: 10px;
@@ -85,4 +87,9 @@ button:disabled{
 }
 #processMsg{
     color: firebrick;
+}
+.hint{
+    color: forestgreen;
+    font-size: 12px;
+    font-style: normal;
 }

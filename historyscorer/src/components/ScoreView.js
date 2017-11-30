@@ -85,7 +85,7 @@ class ScoreView extends Component {
         return (<div>
             {this.renderBrowsingScore()}
             <div className="row align-items-start">
-                <div className="col-sm-8">
+                <div className="col-sm-6">
                     <select multiple id="resultSelection" onClick={()=>{this.getSelected()}}>
                         {Object.keys(this.state.output.scores).map((key)=>{
                             return(

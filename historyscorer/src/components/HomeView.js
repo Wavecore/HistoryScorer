@@ -14,6 +14,8 @@ class HomeView extends Component {
                <div className="row align-items-start">
                    <div className="col-sm-8">
                        <button onClick={()=>{this.move("history",{})}}>Score My History</button>
+                       <div>&nbsp;</div>
+                       <div> &nbsp;</div>
                        <ScoreSite/>
                    </div>
                    <div className="col-sm">

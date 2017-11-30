@@ -149,35 +149,33 @@ class HistoryView extends Component {
     render() {
         return (
             <div>
-                <div><label id="chsFile" htmlFor="loadFile" className="control-label">Choose a file then click 'Load history' to see the browsing history</label></div>
-            <input id="LoadHistory" class="btn btn-primary" type="button" value="Load History" onClick={()=>{this.loadJSON()}}/>
-            <input id="fileInput" type="file" accept=".json" /><br/>
-            <div id="processMsg">{this.state.processMsg}</div>
-                <div><label htmlFor="loadFile" className="control-label">Additional websites can be added to list by entering site name and clicking 'Add'</label></div>
-            <input type="button" value="Add" onClick={()=>{this.addWebsite()}}/>
-            <input id="txtAddWebsite" type="text" placeholder="Enter site" /><br/>
-                {Object.keys(this.state.history).length>0 &&<div><label htmlFor="loadFile" className="control-label">You can click on a site to see more information</label></div>}
+                <label>Step 1) Download and install the <a href="https://chrome.google.com/webstore/detail/history-export/lpmoaclacdaofhlijejogfldmgkdlglj?hl=en"  target="_blank">Chrome History Export</a> into your Chrome browser</label><br/>
+                <label>Step 2) Follow the Chrome History Export instructions to export your history as a JSON file</label><br/>
+                <label>Step 3) Load your history by clicking the 'Browse...' button, selecting your history JSON file, and clicking the 'Load History' button</label><br/>
 
+                <input id="fileInput" type="file" accept=".json" />
+                <input id="LoadHistory" class="btn btn-primary" type="button" value="Load History" onClick={()=>{this.loadJSON()}}/><br/>
+                <label> Or </label><br/>
+                <input id="txtAddWebsite" type="text" placeholder="Enter site" />
+                <input type="button" value="Add" onClick={()=>{this.addWebsite()}}/><br/>
+                <label>Add your websites into your history by entering them into the text box above and clicking the 'Add' button</label><br/>
+
+                <br/><br/>
+                {Object.keys(this.state.history).length>0 &&<label htmlFor="loadFile" className="control-label">(Optional) You can click on one of the websites below to bring up more information and edit your history</label>}
                 <div className="row align-items-start">
-                    <div className="col-sm-8">
+                    <div className="col-sm-6">
                         <select multiple id="historySelection" onClick={()=>{this.getSelected()}}>
                             {Object.keys(this.state.history).map((key)=>{
                                 return(<option key={key} value={key}> {key}</option>)
                             })}
                         </select><br/>
-                        <div><label htmlFor="loadFile" className="control-label">Once your history has been loaded, click Score History to score your history</label></div>
-                        <button id="scoreHistory" disabled={Object.keys(this.state.history).length<=0 && "disabled"} onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
-                    </div>
+                            </div>
                     <div className="col-sm">
-                        {this.renderSelectedHistory()}
+                        {this.renderSelectedHistory()}<br/>
                     </div>
-                </div>
-
-
-            {this.renderSelectedHistory()}
-
-
-        </div>
+                </div><br/>
+                <button id="scoreHistory" disabled={Object.keys(this.state.history).length<=0 && "disabled"} onClick={()=>{this.move("score",this.state.history)}}>Score History</button>
+            </div>
         );
 
 

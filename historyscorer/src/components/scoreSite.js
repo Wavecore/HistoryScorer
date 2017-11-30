@@ -108,14 +108,12 @@ class ScoreSite extends React.Component{
     render(){
         return (
             <section>
-                <div className="ScoreSite">
+                <div>
+                    <input id="txtScoreSite" type="text" placeholder="Enter site"/>
                     <button onClick={(e) => this.handleClick()}>Score Site</button>
                 </div>
                 <div className="Info">
-                   <div><label htmlFor="loadFile" className="control-label">Enter site below to review score. (Example: Amazon.com)</label></div>
-                </div>
-                <div className="siteInput">
-                    <input id="txtScoreSite" type="text" placeholder="Enter site"/>
+                    <div className="hint">Enter a website above (Example: amazon.com) and press Score Site to score a website</div>
                 </div>
                 <div id="invalidMsg">{this.state.invalidMsg}</div>
 
