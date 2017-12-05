@@ -149,17 +149,27 @@ class HistoryView extends Component {
     render() {
         return (
             <div>
-                <label>Step 1) Download and install the <a href="https://chrome.google.com/webstore/detail/history-export/lpmoaclacdaofhlijejogfldmgkdlglj?hl=en"  target="_blank">Chrome History Export</a> into your Chrome browser</label><br/>
-                <label>Step 2) Follow the Chrome History Export instructions to export your history as a JSON file</label><br/>
-                <label>Step 3) Load your history by clicking the 'Browse...' button, selecting your history JSON file, and clicking the 'Load History' button</label><br/>
-
+                <label>Step 1) Download and install the <a href="https://chrome.google.com/webstore/detail/history-export/lpmoaclacdaofhlijejogfldmgkdlglj?hl=en"  target="_blank">Chrome History Export</a> from the Chrome Web Store onto your Chrome browser</label><br/>
+                <div className="row align-items-start">
+                    <div className="col-sm-1"/>
+                    <div className="col-sm-15">
+                    <label><a href="https://chrome.google.com/webstore/detail/history-export/lpmoaclacdaofhlijejogfldmgkdlglj?hl=en"  target="_blank">https://chrome.google.com/webstore/detail/history-export/lpmoaclacdaofhlijejogfldmgkdlglj?hl=en</a></label>
+                    </div>
+                </div>
+                <label>Step 2) Once the chrome extension has been installed, click the extension at the top of your chrome browser and then click "All History" to download your history as a JSON file</label><br/>
+                <div className="row align-items-start">
+                    <div className="col-sm-1"/>
+                    <div className="col-sm-15">
+                        <img src="HistoryExporter.jpg" class="img-rounded"  alt="Chrome History Exporter"/><br/>
+                    </div>
+                </div>
+                <label>Step 3) Load your history by clicking the 'Choose File' button, selecting your history JSON file, and clicking the 'Load History' button</label><br/>
                 <input id="fileInput" type="file" accept=".json" />
                 <input id="LoadHistory" class="btn btn-primary" type="button" value="Load History" onClick={()=>{this.loadJSON()}}/><br/>
                 <label> Or </label><br/>
                 <input id="txtAddWebsite" type="text" placeholder="Enter site" />
                 <input type="button" value="Add" onClick={()=>{this.addWebsite()}}/><br/>
                 <label>Add your websites into your history by entering them into the text box above and clicking the 'Add' button</label><br/>
-
                 <br/><br/>
                 {Object.keys(this.state.history).length>0 &&<label htmlFor="loadFile" className="control-label">(Optional) You can click on one of the websites below to bring up more information and edit your history</label>}
                 <div className="row align-items-start">
