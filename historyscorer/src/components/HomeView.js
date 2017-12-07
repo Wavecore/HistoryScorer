@@ -13,6 +13,7 @@ class HomeView extends Component {
            <div>
                <div className="row align-items-start">
                    <div className="col-sm-8">
+                       <div className="hint">To view all of your browsing history and scores click below.</div>
                        <button onClick={()=>{this.move("history",{})}}>Score My History</button>
                        <div>&nbsp;</div>
                        <div> &nbsp;</div>

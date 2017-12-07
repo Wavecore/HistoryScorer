@@ -116,6 +116,7 @@ class ScoreSite extends React.Component{
                     <div className="hint">Enter a website above (Example: amazon.com) and press Score Site to score a website</div>
                 </div>
                 <div id="invalidMsg">{this.state.invalidMsg}</div>
+                <div><img src={require('./wotScore.JPG')} width="450" height="150"/></div>
 
                 { this.renderScore()}
 
