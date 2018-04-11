@@ -6,7 +6,6 @@ fetch("http://localhost:5000/convertRisks/?risks=101,201",
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-		
         method: "GET",
        // body: //JSON.stringify({0:"demo.com",1:"chrome.google.com",2:"does not exist"})
         //JSON.stringify(
